@@ -1,0 +1,78 @@
+    <div id='sidebar'>
+      <h2>¿Qué estás viendo?</h2>
+      <ul id='layers'>
+        <li data-layer-name='barrios' class='barrios'>
+          <header>
+            <input type='checkbox' name='entity' value='barrios' checked> Barrios
+            <a href='#filters-barrios' class='expand'></a>
+          </header>
+
+          <!-- Inicio Filtro de Barrios -->
+
+          <div id='filters-barrios' class='entity-filter' data-target-layer='barrios'>
+            <section class='filter facet col' data-facet='una_categoria' style='display: block'>
+              <header>Una categoría</header>
+              <div>
+                <label><input type='checkbox' value='uno' checked>Opción uno</label>
+                <label><input type='checkbox' value='dos' checked>Opción dos</label>
+              </div>
+            </section>
+          </div>
+
+          <!-- Cierro Filtro de Barrios -->
+        </li>
+
+        <li data-layer-name='us' class='us'>
+          <header>
+            <input type='checkbox' name='entity' value='us' checked> Unidades Sanitarias
+            <a href='#filters-us' class='expand'></a>
+          </header>
+
+          <!-- Inicio Filtro de Unidades Sanitarias -->
+
+          <div id='filters-us' class='entity-filter' data-target-layer='us'>
+            <section class='filter facet' data-facet='una_categoria' style='display: block'>
+              <header>Una categoría</header>
+              <div>
+                <label><input type='checkbox' value='uno' checked>Opción uno</label>
+                <label><input type='checkbox' value='dos' checked>Opción dos</label>
+              </div>
+            </section>
+          </div>
+
+          <!-- Cierro Filtro de Unidades Sanitarias -->
+        </li>
+   </ul>
+
+   <div class='views'>
+    <h2>¿Cómo lo estás viendo?</h2>
+    <a href='#view=map' title='Vista de mapa' class='map active'><span></span></a><a href='#view=table' title='Vista de tabla' class='table'><span></span></a>
+    <br /><span class="vista-mapa">Mapa</span><span class="vista-tabla">Tabla</span>
+  </div>
+</div>
+
+<! -- Posicion original de filtros -->
+<! -- Final Posicion original de filtros -->
+
+
+<div id="main" role="main" class="fluid">
+  <div id="table" style='display: none'>
+    <table id='barrios-table' class='display'></table>
+    <table id='us-table' class='display'></table>
+  </div>
+
+  <div id="map"></div>
+</div>
+
+<script type='text/html' id='barrios-bubble-template'>
+<div class='bubble'>
+  <header>Barrio</header>
+  <h1><a href='/barrio/${nombre_del_barrio.value}'>${nombre_del_barrio.value}</a></h1>
+  <span>Click para ver detalle</span>
+
+</div>
+</script>
+
+<script>
+window.onload = function() { initializeMap(); };
+</script>
