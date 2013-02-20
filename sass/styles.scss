@@ -16,10 +16,8 @@
 $default-space: 8px;
 $default-bkg-color: #f3f2e8;
 
-$color-industrias: #e87569;
-$color-basurales: #98a1fb;
-$color-asentamientos: #938db4;
-$color-reportes: #fffaa1;
+$color-barrios: #e87569;
+$color-us: #98a1fb;
 
 $sidebar-width: $default-space * 35;
 $header-height: $default-space * 6;
@@ -340,10 +338,8 @@ body > nav .collapse-handle {
         color: #f0f0f0;
       }
 
-      &.industrias {    @include filter-style($color-industrias); }
-      &.basurales {     @include filter-style($color-basurales); }
-      &.asentamientos { @include filter-style($color-asentamientos); }
-      &.reportes {      @include filter-style($color-reportes); }
+      &.barrios {    @include filter-style($color-barrios); }
+      &.us {     @include filter-style($color-us); }
 
       &.disabled { color: #777; }
     }
@@ -706,7 +702,7 @@ body > header {
     margin: 0;
 
     a {
-		color: $color-industrias;
+		color: $color-barrios;
 	}
 
   }

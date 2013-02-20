@@ -1,6 +1,6 @@
 window.maps = {};
 
-var QPR = {
+var SMA = {
   view: 'map',
 
   layers: {
@@ -18,7 +18,7 @@ var QPR = {
   },
 
   arrayToPolygon: function(ary, polygonOptions) {
-    polygonOptions.paths = QPR.arrayToPoints(ary);
+    polygonOptions.paths = SMA.arrayToPoints(ary);
 
     return new google.maps.Polygon(polygonOptions);
   }
@@ -76,7 +76,7 @@ function initializeMap() {
   var everything = [[-90, -90], [-90, 90], [90, -90], [-90, -90]];
 
   var cuenca = new google.maps.Polygon({
-    paths: [QPR.arrayToPoints(everything), QPR.arrayToPoints(window.cuenca)],
+    paths: [SMA.arrayToPoints(everything), SMA.arrayToPoints(window.cuenca)],
     strokeWeight: 0,
     strokeOpacity: 0.2,
     fillColor: "#000000",
@@ -152,7 +152,7 @@ function refresh() {
     });
   });
 
-  if (QPR.view == 'map') {
+  if (SMA.view == 'map') {
     $.each(Layer.find(layersOnMap), function() { this.refreshMap(map); });
   }
   else {
@@ -168,7 +168,7 @@ function refreshVisibleEntities() {
   $('#layers header input').each(function() {
     var layer = Layer.find(this.parentNode.parentNode.getAttribute('data-layer-name'))[0];
 
-    if (QPR.view == 'map') {
+    if (SMA.view == 'map') {
       if (this.checked) layer.show(map);
       else layer.hide();
     }
@@ -400,7 +400,7 @@ $(function() {
     $(this).siblings().removeClass('active');
     $('#map').show();
     $('#table').hide();
-    QPR.view = 'map';
+    SMA.view = 'map';
     refresh();
   });
 
@@ -413,7 +413,7 @@ $(function() {
     $(this).siblings().removeClass('active');
     $('#map').hide();
     $('#table').show();
-    QPR.view = 'table';
+    SMA.view = 'table';
     refreshVisibleEntities();
     refresh();
   });
@@ -673,137 +673,3 @@ function unsnap2(n) {
   n = parseFloat(n);
   return [n.toFixed(2), (n + 0.1).toFixed(2)];
 }
-
-function semaforo($chart) {
-  if ($chart.length == 0) return;
-
-  var rows = QPR.industrias.semaforo;
-  var data = {};
-
-  for (var i = 0; i < rows.length; i++) {
-    var x = rows[i][0],
-        y = rows[i][1];
-
-    x = snap2(x);
-    y = snap2(y);
-
-    if (!data[x])    data[x] = {};
-    if (!data[x][y]) data[x][y] = 0;
-
-    data[x][y] += 1;
-  }
-
-  var topmargin = 10;
-  var stepsX = 11;
-  var stepsY = 11;
-
-  var width = $chart.innerWidth(),
-      height = $chart.innerHeight(),
-      leftgutter = 6,
-      bottomgutter = 6,
-      r = Raphael($chart[0], width, height),
-      txt = {"font": '10px Fontin-Sans, Arial', stroke: "none", fill: "#666"},
-      X = (width - leftgutter - 2) / stepsX,
-      Y = (height - bottomgutter - 2 - topmargin) / stepsY,
-      max = Math.round(X / 2) - 2;
-
-  var vgradient = '90-#d11717:0-#e28418:25-#e2cf24:50-#89b71d:75-#10ad0d:100';
-  var hgradient = '00-#d11717:0-#e28418:25-#e2cf24:50-#89b71d:75-#10ad0d:100';
-
-  r.rect(6 + 2, height - 6, width - 6 - 2, 6, 3).attr({fill: hgradient, stroke: 'none'});
-  r.rect(0, topmargin - R, 6, height - 6 - 2, 3).attr({fill: vgradient, stroke: 'none'});
-
-  r.path('M ' + (leftgutter + 2) + ' ' + ((height - bottomgutter - 2) / 2) + ' L' + width + ' ' + ((height - bottomgutter - 2) / 2)).attr({stroke: '#ddd'});
-  r.path('M ' + (leftgutter + 2 + ((width - leftgutter - 2) / 2)) + ' ' + 0 + ' L' + (leftgutter + 2 + ((width - leftgutter - 2) / 2)) + ' ' + (height - bottomgutter - 2)).attr({stroke: '#ddd'});
-
-  var draw = (function (r, dx, dy, R, value, color, interactive, callback) {
-    var dt = r.circle(dx + R, dy, R).attr({stroke: "none", fill: color});
-    var bg;
-    if (R < 6) {
-      var bg = r.circle(dx + R, dy, 6).attr({stroke: "none", fill: "#000", opacity: .4}).hide();
-    }
-    var lbl = r.text(dx + R, dy, value)
-        .attr({"font": '10px Fontin-Sans, Arial', stroke: "none", fill: "#fff"}).hide();
-    var dot = r.circle(dx + R, dy, max).attr({stroke: "none", fill: "#000", opacity: 0});
-
-    if (interactive) {
-      dot[0].onmouseover = function () {
-        var el = null;
-
-        if (bg) {
-          el = bg;
-          bg.show();
-        } else {
-          var clr = Raphael.rgb2hsb(color);
-          clr.b = .5;
-          dt.attr("fill", Raphael.hsb2rgb(clr).hex);
-          el = dt;
-        }
-
-        lbl.show();
-      };
-      dot[0].onmouseout = function () {
-        if (bg) {
-          bg.hide();
-        } else {
-          dt.attr("fill", color);
-        }
-        lbl.hide();
-      };
-
-      if (callback) {
-        dot[0].onclick = callback;
-      }
-    }
-  });
-
-  var dots = [];
-
-  var interactive = $chart.parent().hasClass('filter');
-
-  for (x in data) {
-    for (y in data[x]) {
-      var count = data[x][y];
-
-      var R = count && Math.min(Math.round(Math.sqrt(count / Math.PI) * 4), max);
-
-      var f = 0;
-
-      if (R) {
-        var dx = leftgutter + X * (((1-x) * 10) + f) - R;
-        var dy = topmargin + Y * ((y * 10) + f);
-
-        if (interactive) {
-          draw(r, dx, dy, R, count, '#ddd', true, (function(x, y) {
-            return function() {
-              $chart.data('x', x);
-              $chart.data('y', y);
-              refresh();
-            }
-          })(x, y)
-          );
-        }
-        else {
-          draw(r, dx, dy, R, count, '#ddd');
-        }
-      }
-    }
-  }
-
-  if ($chart[0].getAttribute('data-x')) {
-    var x = parseFloat($chart[0].getAttribute('data-x'));
-    var y = parseFloat($chart[0].getAttribute('data-y'));
-
-    var dx = leftgutter + X * (((1-x) * 10) + f) - R;
-    var dy = topmargin + Y * ((y * 10) + f);
-    draw(r, dx, dy, 3, 1, '#000000');
-  }
-}
-
-$(function() {
-  semaforo($('.chart'));
-
-  $(document.body).bind('bubble.maps', function(_, element) {
-    semaforo($('.chart', element.content));
-  });
-});
