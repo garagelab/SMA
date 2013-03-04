@@ -14,17 +14,17 @@ FusionTables::Connection::URL = URI.parse("http://tables.googlelabs.com/api/quer
 
 TABLES = {
   :barrios => '1OiQtSv09z3ss2sP7_SB_pQFk-Y_HF7Nc6hE9cFc'.to_sym,
-  :us      => '1dML7x2nhZBVu5FcgNpB8P2ft2-X8BZpbzp8M4jQ'.to_sym,
+  :es      => '1srzoUc6ovddAOlLSYRRxZdF41Z6nLwxYnFFF7rM'.to_sym,
 }
 
 Barrios = DB[TABLES[:barrios]]
-UnidadesSanitarias = DB[TABLES[:us]]
+EstablecimientosDeSalud = DB[TABLES[:es]]
 
 class NilClass
   def empty?; true; end
 end
 
-class QPR < Sinatra::Base
+class SMA < Sinatra::Base
   helpers do
     def root(path)
       File.expand_path(path, File.dirname(__FILE__))

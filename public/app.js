@@ -1,3 +1,9 @@
+/*
+
+*/
+
+var barrios_bsas = new google.maps.LatLng(-34.672747,-58.41774);
+
 window.maps = {};
 
 var SMA = {
@@ -26,7 +32,6 @@ var SMA = {
 
 function initializeMap() {
 
-  var riachuelo = new google.maps.LatLng(-34.672747,-58.41774);
   var mapStyles = [
               {
                 featureType: "poi.business",
@@ -65,8 +70,8 @@ function initializeMap() {
               }
             ];
   window.map = new google.maps.Map(document.getElementById('map'), {
-    center: riachuelo,
-    zoom: 12,
+    center: barrios_bsas,
+    zoom: 11,
     minZoom: 9,
     mapTypeId: 'roadmap',
     streetViewControl: false,

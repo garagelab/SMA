@@ -39,7 +39,8 @@ body {
 
 /* line 51, ../sass/styles.scss */
 body > header {
-  background: url('/images/exclusive_paper.png') repeat center center;
+/*  background: url('/images/exclusive_paper.png') repeat center center;
+*/  background: #ffffff;
   -moz-box-shadow: 0px 0px 5px #333333;
   -webkit-box-shadow: 0px 0px 5px #333333;
   -o-box-shadow: 0px 0px 5px #333333;
@@ -58,7 +59,8 @@ body > header h1 {
 /* line 67, ../sass/styles.scss */
 body > header h1 a {
   font-size: .85em;
-  color: #038A90;
+/*  color: #038A90;
+*/  color: #008800;
   line-height: 48px;
   margin: 0;
   text-decoration: none;
@@ -543,7 +545,7 @@ body > nav {
   display: block;
   height: 75px;
   width: 220px;
-  background: url('/images/logo_garagelab.png');
+  background: url('/images/logo_garagelab_trans1.png');
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1;
 }
@@ -573,11 +575,17 @@ body > nav {
   }
 }
 /* line 471, ../sass/styles.scss */
-body > header .logo {
-  text-shadow: #aaaaaa 0px 0px 1px;
-  float: left;
-  padding: 0 20px;
-  width: 270px;
+body > header .logo a {
+/*  text-shadow: #aaaaaa 0px 0px 1px;
+*/  
+	color: #008800;
+  	font-size: 20px;
+  	line-height: 48px;
+  	font-weight: lighter;
+	float: left;
+  	padding: 0 10px;
+  	width: 300px;
+  	text-decoration: none;
 }
 /* line 478, ../sass/styles.scss */
 body > header nav {
@@ -588,7 +596,9 @@ body > header nav {
 }
 /* line 484, ../sass/styles.scss */
 body > header nav a {
-  color: #594C43;
+/*  color: #594C43;
+*/
+	color: #008800;
   font-weight: 700;
   line-height: 48px;
   margin: 0 10px 0 0;
@@ -596,8 +606,9 @@ body > header nav a {
 }
 /* line 491, ../sass/styles.scss */
 body > header nav a:hover {
-  color: #e0d675;
-  text-decoration: none;
+/*  color: #e0d675;
+*/  color: #0088ff;
+  text-decoration: underline;
 }
 
 /* line 499, ../sass/styles.scss */
