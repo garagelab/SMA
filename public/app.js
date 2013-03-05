@@ -100,6 +100,7 @@ function initializeMap() {
 //   cuenca.setMap(map);
 
 	// Prueba para los Establecimientos de salud
+	//
 //   var cuenca = new google.maps.FusionTablesLayer( {
 //     suppressInfoWindows: true, // Because we have a separate listener for that.
 //     query: {
