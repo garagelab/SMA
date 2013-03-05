@@ -22,15 +22,15 @@
           <!-- Cierro Filtro de Barrios -->
         </li>
 
-        <li data-layer-name='us' class='us'>
+        <li data-layer-name='es' class='es'>
           <header>
-            <input type='checkbox' name='entity' value='us' checked> Establecimientos de salud
-            <a href='#filters-us' class='expand'></a>
+            <input type='checkbox' name='entity' value='es' checked> Establecimientos de salud
+            <a href='#filters-es' class='expand'></a>
           </header>
 
           <!-- Inicio Filtro de Establecimientos de salud -->
 
-          <div id='filters-us' class='entity-filter' data-target-layer='us'>
+          <div id='filters-es' class='entity-filter' data-target-layer='es'>
             <section class='filter facet' data-facet='una_categoria' style='display: block'>
               <header>Una categoría</header>
               <div>
@@ -64,13 +64,18 @@
   <div id="map"></div>
 </div>
 
+
 <script type='text/html' id='barrios-bubble-template'>
+<!--
 <div class='bubble'>
   <header>Barrio</header>
   <h1><a href='/barrio/${nombre_del_barrio.value}'>${nombre_del_barrio.value}</a></h1>
   <span>Click para ver detalle</span>
-
 </div>
+-->
+</script>
+
+<script type='text/html' id='es-bubble-template'>
 </script>
 
 <script>

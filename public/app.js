@@ -1,8 +1,16 @@
 /*
+ Project:	Salud Materna en Avellaneda
+	
 
 */
 
+/////////////////////////////////////////////////////////////////////
+// Init all necessary stuff.
+/////////////////////////////////////////////////////////////////////
+
 var barrios_bsas = new google.maps.LatLng(-34.672747,-58.41774);
+
+var dataSourceEncryptedID_es ='1srzoUc6ovddAOlLSYRRxZdF41Z6nLwxYnFFF7rM';
 
 window.maps = {};
 
@@ -80,16 +88,36 @@ function initializeMap() {
 
   var everything = [[-90, -90], [-90, 90], [90, -90], [-90, -90]];
 
-  var cuenca = new google.maps.Polygon({
-    paths: [SMA.arrayToPoints(everything), SMA.arrayToPoints(window.cuenca)],
-    strokeWeight: 0,
-    strokeOpacity: 0.2,
-    fillColor: "#000000",
-    fillOpacity: 0.1,
-    clickable: false
-  });
+//   var cuenca = new google.maps.Polygon({
+//     paths: [SMA.arrayToPoints(everything), SMA.arrayToPoints(window.cuenca)],
+//     strokeWeight: 0,
+//     strokeOpacity: 0.2,
+//     fillColor: "#000000",
+//     fillOpacity: 0.1,
+//     clickable: false
+//   });
+// 
+//   cuenca.setMap(map);
 
-  cuenca.setMap(map);
+	// Prueba para los Establecimientos de salud
+  var cuenca = new google.maps.FusionTablesLayer( {
+    suppressInfoWindows: true, // Because we have a separate listener for that.
+    query: {
+      select: 'location',
+      from: dataSourceEncryptedID_es
+    },
+    styles: [ {
+      markerOptions: {
+        fillColor: "#008800",     // Color del plano - #ff0000 rojo de Google.
+        fillOpacity: 0.5,         // Opacidad del plano
+        strokeColor: "#000000",   // Color del margen
+        strokeOpacity: 0.5,       // Opacidad del margen
+        strokeWeight: 1           // Grosor del margen
+      }
+    } ]
+  } );
+
+   cuenca.setMap(map);
 
   refresh();
 }
@@ -195,10 +223,10 @@ var COLUMNS = {
     }},
   ],
 
-  us: [
+  es: [
     {sName: "id", bVisible: false},
     {sName: "nombre", sTitle: "Nombre", fnRender: function(o) {
-      return '<a href="/us/' + o.aData[0] + '">' + o.aData[o.iDataColumn] + '</a>';
+      return '<a href="/es/' + o.aData[0] + '">' + o.aData[o.iDataColumn] + '</a>';
     }},
     {sName: "direccion", sTitle: "Dirección"},
   ]
@@ -219,7 +247,7 @@ function Layer(name, source) {
   this.visible = true;
 
   this.ftLayer = new google.maps.FusionTablesLayer({
-    suppressInfoWindows: true
+    suppressInfoWindows: false
   });
 
   return this;
@@ -561,7 +589,7 @@ $(function() {
       map.setCenter(Layer.stringToLatLng(this.getAttribute('data-center')));
 
       var layer = new google.maps.FusionTablesLayer({
-        suppressInfoWindows: true,
+        suppressInfoWindows: false,
         map: map
       });
 
