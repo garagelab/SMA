@@ -100,24 +100,24 @@ function initializeMap() {
 //   cuenca.setMap(map);
 
 	// Prueba para los Establecimientos de salud
-  var cuenca = new google.maps.FusionTablesLayer( {
-    suppressInfoWindows: true, // Because we have a separate listener for that.
-    query: {
-      select: 'location',
-      from: dataSourceEncryptedID_es
-    },
-    styles: [ {
-      markerOptions: {
-        fillColor: "#008800",     // Color del plano - #ff0000 rojo de Google.
-        fillOpacity: 0.5,         // Opacidad del plano
-        strokeColor: "#000000",   // Color del margen
-        strokeOpacity: 0.5,       // Opacidad del margen
-        strokeWeight: 1           // Grosor del margen
-      }
-    } ]
-  } );
-
-   cuenca.setMap(map);
+//   var cuenca = new google.maps.FusionTablesLayer( {
+//     suppressInfoWindows: true, // Because we have a separate listener for that.
+//     query: {
+//       select: 'location',
+//       from: dataSourceEncryptedID_es
+//     },
+//     styles: [ {
+//       markerOptions: {
+//         fillColor: "#008800",     // Color del plano - #ff0000 rojo de Google.
+//         fillOpacity: 0.5,         // Opacidad del plano
+//         strokeColor: "#000000",   // Color del margen
+//         strokeOpacity: 0.5,       // Opacidad del margen
+//         strokeWeight: 1           // Grosor del margen
+//       }
+//     } ]
+//   } );
+// 
+//    cuenca.setMap(map);
 
   refresh();
 }
