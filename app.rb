@@ -13,7 +13,7 @@ DB = Sequel.connect("fusiontables:///")
 FusionTables::Connection::URL = URI.parse("http://tables.googlelabs.com/api/query")
 
 TABLES = {
-  :barrios => '1OiQtSv09z3ss2sP7_SB_pQFk-Y_HF7Nc6hE9cFc'.to_sym,
+  :barrios => '1ePInQ8wuWBsfXcXczd0j3bp7qFFw2v-tXn_g_Rw'.to_sym,
   :es      => '1srzoUc6ovddAOlLSYRRxZdF41Z6nLwxYnFFF7rM'.to_sym,
 }
 
@@ -71,8 +71,8 @@ class SMA < Sinatra::Base
     erb(:"contenido/#{page}")
   end
 
-  get "/barrio/:id" do |id|
-    @barrio = Barrio.where(:id => id).first
-    erb(:"barrio")
-  end
+#  get "/barrio/:id" do |id|
+#    @barrio = Barrio.where(:id => id).first
+#    erb(:"barrio")
+#  end
 end

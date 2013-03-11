@@ -1,16 +1,16 @@
 /*
  Project:	Salud Materna en Avellaneda
 	
-
+			February and March 2013
+			Coding modified for this project
+			by Andreas Hempfling <andreas.hempfling@gmail.com>
 */
 
 /////////////////////////////////////////////////////////////////////
 // Init all necessary stuff.
 /////////////////////////////////////////////////////////////////////
 
-var barrios_bsas = new google.maps.LatLng(-34.672747,-58.41774);
-
-var dataSourceEncryptedID_es ='1srzoUc6ovddAOlLSYRRxZdF41Z6nLwxYnFFF7rM';
+var avellaneda = new google.maps.LatLng(-34.680139,-58.341491);
 
 window.maps = {};
 
@@ -18,7 +18,9 @@ var SMA = {
   view: 'map',
 
   layers: {
-    cuenca: {}
+  	barrios: {},
+  	es: {},
+    barrio_de_avellaneda: {}
   },
 
   arrayToPoints: function(ary) {
@@ -38,8 +40,7 @@ var SMA = {
   }
 };
 
-function initializeMap() {
-
+function initializeMap() {	
   var mapStyles = [
               {
                 featureType: "poi.business",
@@ -78,49 +79,33 @@ function initializeMap() {
               }
             ];
   window.map = new google.maps.Map(document.getElementById('map'), {
-    center: barrios_bsas,
-    zoom: 11,
+    center: avellaneda,
+    zoom: 13,
     minZoom: 9,
     mapTypeId: 'roadmap',
     streetViewControl: false,
     styles: mapStyles
   });
 
-  var everything = [[-90, -90], [-90, 90], [90, -90], [-90, -90]];
 
-//   var cuenca = new google.maps.Polygon({
-//     paths: [SMA.arrayToPoints(everything), SMA.arrayToPoints(window.cuenca)],
-//     strokeWeight: 0,
-//     strokeOpacity: 0.2,
-//     fillColor: "#000000",
-//     fillOpacity: 0.1,
-//     clickable: false
-//   });
-// 
-//   cuenca.setMap(map);
+	// Partido de Avellaneda.
+  	var everything = [[-90, -90], [-90, 90], [90, -90], [-90, -90]];
 
-	// Prueba para los Establecimientos de salud
-	//
-//   var cuenca = new google.maps.FusionTablesLayer( {
-//     suppressInfoWindows: true, // Because we have a separate listener for that.
-//     query: {
-//       select: 'location',
-//       from: dataSourceEncryptedID_es
-//     },
-//     styles: [ {
-//       markerOptions: {
-//         fillColor: "#008800",     // Color del plano - #ff0000 rojo de Google.
-//         fillOpacity: 0.5,         // Opacidad del plano
-//         strokeColor: "#000000",   // Color del margen
-//         strokeOpacity: 0.5,       // Opacidad del margen
-//         strokeWeight: 1           // Grosor del margen
-//       }
-//     } ]
-//   } );
-// 
-//    cuenca.setMap(map);
+  	var barrio_de_avellaneda = new google.maps.Polygon({
+//		paths: [SMA.arrayToPoints(everything), SMA.arrayToPoints(window.barrio_de_avellaneda)],
+    	paths: [SMA.arrayToPoints(window.barrio_de_avellaneda)],
+    	strokeWeight: 0.5,
+    	strokeOpacity: 0.3,
+//    	fillColor: "#2EFE2E",
+//    	fillColor: "#89C13C",
+    	fillColor: "#9acd32", /* Verde */
+    	fillOpacity: 0.2,
+    	clickable: false
+  	});
 
-  refresh();
+  	barrio_de_avellaneda.setMap(map);
+
+	refresh();
 }
 
 function refresh() {
@@ -216,20 +201,74 @@ function refreshVisibleEntities() {
 }
 
 var bubble = null;
+//var infoBubble = null;
 
 var COLUMNS = {
   barrios: [
-    {sName: "nombre_del_barrio", sTitle: "Nombre del barrio", fnRender: function(o) {
-      return '<a href="/barrio/' + o.aData[0] + '">' + o.aData[o.iDataColumn] + '</a>';
-    }},
+//     {sName: "Nombre del Barrio", sTitle: "Nombre del Barrio", fnRender: function(o) {
+//       return '<a href="/barrio/' + o.aData[0] + '">' + o.aData[o.iDataColumn] + '</a>';
+//     }},
+    {sName: "NOMBRE DEL BARRIO", sTitle: "NOMBRE DEL BARRIO", bVisible: true},
+    {sName: "OTRO NOMBRE DEL BARRIO", sTitle: "OTRO NOMBRE DEL BARRIO", bVisible: true},
+    {sName: "Poligono", sTitle: "Poligono", bVisible: false},
+    {sName: "Puntos", sTitle: "Puntos", bVisible: false},
+    {sName: "PARTIDO", sTitle: "PARTIDO", bVisible: true},
+    {sName: "LOCALIDAD", sTitle: "LOCALIDAD", bVisible: true},
+    {sName: "AÑO DE CONFORMACIÓN DEL BARRIO", sTitle: "AÑO DE CONFORMACIÓN DEL BARRIO", bVisible: true},
+    {sName: "MODALIDAD EN LA QUE SE CONSTITUYÓ EL BARRIO", sTitle: "MODALIDAD EN LA QUE SE CONSTITUYÓ EL BARRIO", bVisible: true},
+    {sName: "AÑO DE MAYOR CRECIMIENTO", sTitle: "AÑO DE MAYOR CRECIMIENTO", bVisible: true},
+    {sName: "NRO DE FLIAS", sTitle: "NRO DE FLIAS", bVisible: true},
+    {sName: "ACTORES QUE PARTICIPAN DE LA VENTA 2", sTitle: "ACTORES QUE PARTICIPAN DE LA VENTA 2", bVisible: true},
+    {sName: "MODALIDAD ADOPTADA POR LAS NUEVAS GENERACIONES 1", sTitle: "MODALIDAD ADOPTADA POR LAS NUEVAS GENERACIONES 1", bVisible: true},
+    {sName: "MODALIDAD ADOPTADA POR LAS NUEVAS GENERACIONES 2", sTitle: "MODALIDAD ADOPTADA POR LAS NUEVAS GENERACIONES 2", bVisible: true},
+    {sName: "ACCESO A LA ENERGÍA", sTitle: "ACCESO A LA ENERGÍA", bVisible: true},
+    {sName: "RED CLOACAL", sTitle: "RED CLOACAL", bVisible: true},
+    {sName: "AGUA", sTitle: "AGUA", bVisible: true},
+    {sName: "PROVISIÓN DE AGUA", sTitle: "PROVISIÓN DE AGUA", bVisible: true},
+    {sName: "GAS", sTitle: "GAS", bVisible: true},
+    {sName: "DESAGÜES PLUVIALES", sTitle: "DESAGÜES PLUVIALES", bVisible: true},
+    {sName: "ALUMBRADO PÚBLICO", sTitle: "ALUMBRADO PÚBLICO", bVisible: true},
+    {sName: "RECOLECCIÓN DE RESIDUOS", sTitle: "RECOLECCIÓN DE RESIDUOS", bVisible: true},
+    {sName: "EL BARRIO SE ENCUENTRA CERCA DE 1", sTitle: "EL BARRIO SE ENCUENTRA CERCA DE 1", bVisible: true},
+    {sName: "EL BARRIO SE ENCUENTRA CERCA DE 2", sTitle: "EL BARRIO SE ENCUENTRA CERCA DE 2", bVisible: true},
+    {sName: "EL BARRIO SE ENCUENTRA CERCA DE 3", sTitle: "EL BARRIO SE ENCUENTRA CERCA DE 3", bVisible: true},
+    {sName: "EXISTENCIA DE UN PROGRAMA DE VIVIENDA DEL ESTADO", sTitle: "EXISTENCIA DE UN PROGRAMA DE VIVIENDA DEL ESTADO", bVisible: true},
+    {sName: "ESPECIFICAR CANTIDAD DE CASILLAS", sTitle: "ESPECIFICAR CANTIDAD DE CASILLAS", bVisible: true},
+    {sName: "LLEGADA AL BARRIO EN TRANSPORTE PÚBLICO", sTitle: "LLEGADA AL BARRIO EN TRANSPORTE PÚBLICO", bVisible: true}
   ],
 
   es: [
-    {sName: "id", bVisible: false},
-    {sName: "nombre", sTitle: "Nombre", fnRender: function(o) {
-      return '<a href="/es/' + o.aData[0] + '">' + o.aData[o.iDataColumn] + '</a>';
-    }},
-    {sName: "direccion", sTitle: "Dirección"},
+//     {sName: "Nombre", sTitle: "Nombre", bVisible: true, fnRender: function(o) {
+//       return '<a href="/es/' + o.aData[0] + '">' + o.aData[o.iDataColumn] + '</a>';
+//     }},
+    {sName: "Nombre", sTitle: "Nombre", bVisible: true},
+    {sName: "Dirección", sTitle: "Dirección", bVisible: true},
+    {sName: "Código Postal", sTitle: "Código Postal", bVisible: true},
+    {sName: "Localidad", sTitle: "Localidad", bVisible: true},
+    {sName: "Departamento", sTitle: "Departamento", bVisible: true},
+    {sName: "Provincia", sTitle: "Provincia", bVisible: true},
+    {sName: "Teléfono", sTitle: "Teléfono", bVisible: true},
+    {sName: "Teléfono2", sTitle: "Teléfono2", bVisible: true},
+    {sName: "Código SISA", sTitle: "Código SISA", bVisible: true},
+    {sName: "Dependencia", sTitle: "Dependencia", bVisible: true},
+    {sName: "Cantidad de partos en 2011", sTitle: "Cantidad de partos en 2011", bVisible: true},
+    {sName: "Total de partos en Región Sanitaria", sTitle: "Total de partos en Región Sanitaria", bVisible: true},
+    {sName: "Relación Porcentual de la región sanitaria", sTitle: "Relación Porcentual de la región sanitaria", bVisible: true},
+    {sName: "Tipo de Establecimiento", sTitle: "Tipo de Establecimiento", bVisible: true},
+    {sName: "Categoría", sTitle: "Categoría", bVisible: true},
+    {sName: "Internación de neonatología", sTitle: "Internación de neonatología", bVisible: true},
+    {sName: "Consultorio externo", sTitle: "Consultorio externo", bVisible: true},
+    {sName: "Especialidades quirúrgicas", sTitle: "Especialidades quirúrgicas", bVisible: true},
+    {sName: "Especialidades quirúrgicas2", sTitle: "Especialidades quirúrgicas2", bVisible: true},
+    {sName: "Participa Plan Nacer", sTitle: "Participa Plan Nacer", bVisible: true},
+    {sName: "Participa Programa Remediar", sTitle: "Participa Programa Remediar", bVisible: true},
+    {sName: "Participa Programa Nacional de Sangre", sTitle: "Participa Programa Nacional de Sangre", bVisible: true},
+    {sName: "latitud", sTitle: "latitud", bVisible: false},
+    {sName: "longitud", sTitle: "longitud", bVisible: false},
+    {sName: "Nivel de zoom", sTitle: "Nivel de zoom", bVisible: false},
+    {sName: "Comentario/ especialidades", sTitle: "Comentario/ especialidades", bVisible: true},
+    {sName: "Hospital, asociado a", sTitle: "Hospital, asociado a", bVisible: true},
+    {sName: "Hospital", sTitle: "Hospital", bVisible: true}
   ]
 };
 
@@ -241,20 +280,83 @@ function fillTable($table, cols, rows) {
 }
 
 function Layer(name, source) {
-  var layer = this;
+	var layer = this;
 
-  this.name = name;
-  this.source = source;
-  this.visible = true;
+  	this.name = name;
+  	this.source = source;
+  	this.visible = true;
 
-  this.ftLayer = new google.maps.FusionTablesLayer({
-    suppressInfoWindows: false
-  });
+	console.log("Layer = " + this.name);
+	console.log("Source = " + this.source);
 
-  return this;
+	if (this.name == "barrio_de_avellaneda") {
+  		console.log("Layer barrio_de_avellaneda");
+	}
+	
+	if (this.name == "es") {
+
+  		console.log("Layer es");
+
+  		this.ftLayer = new google.maps.FusionTablesLayer({
+    		suppressInfoWindows: true,
+    		query: {
+    			select: 'latitud',
+    			from: this.source
+  			},
+    		styles: [
+  				{
+  					markerOptions: {
+    					iconName: "pharmacy_plus",
+    					zIndex: 1
+  					}  				
+				},
+    			{
+    				where: "Hospital = 'X'",
+  					markerOptions: {
+    					iconName: "hospitals",
+    					zIndex: 1
+  					}
+  				}
+			]    		
+  		});
+	}
+// 	else if (this.name == "barrios") {
+// 	  		
+// 	  	console.log("Layer barrios");
+// 
+//   		this.ftLayer = new google.maps.FusionTablesLayer({
+//     		suppressInfoWindows: true,
+//    			query: {
+//    				select: 'Poligono',
+//    				from: this.source
+//  			},
+//     		styles: [ 
+//     			{
+//       				polygonOptions: {
+//         				fillColor: "#008800",     // Color del plano - #ff0000 rojo de Google.
+//         				fillOpacity: 0.5,         // Opacidad del plano
+//         				strokeColor: "#000000",   // Color del margen
+//         				strokeOpacity: 0.5,       // Opacidad del margen
+//         				strokeWeight: 1           // Grosor del margen
+//       				}
+//     			}
+//     		]
+//   		});
+//  	}
+	else {
+
+	  	console.log("Layer none");
+
+  		this.ftLayer = new google.maps.FusionTablesLayer({
+    		suppressInfoWindows: true
+  		});
+	}
+	
+	return this;
 }
 
 Layer.bubble = new google.maps.InfoWindow();
+//Layer.infoBubble = new InfoBubble();
 
 Layer.prototype.hide = function() {
   this.visible = false;
@@ -267,20 +369,89 @@ Layer.prototype.show = function(map) {
 }
 
 Layer.prototype.getBubbleHTML = function(row) {
-  var bubble = $('#' + this.name + '-bubble-template').tmpl(row).get(0);
+	var bubble;
+	if (this.name == "es") {
+		if( "Código Postal" in row ) {
+			row["Código_Postal"] = row["Código Postal"];
+		}
+		if (row["Hospital"].value == "X") {
+			bubble = $('#' + this.name + '-bubble-es-hospital').tmpl(row).get(0);
+		}
+		else {
+			bubble = $('#' + this.name + '-bubble-es-unidad').tmpl(row).get(0);		
+		}	
+	}
+	else if (this.name == "barrios") {
+		if( "NOMBRE DEL BARRIO" in row ) {
+			row["NOMBRE_DEL_BARRIO"] = row["NOMBRE DEL BARRIO"];
+		}
+		if( "OTRO NOMBRE DEL BARRIO" in row ) {
+			row["OTRO_NOMBRE_DEL_BARRIO"] = row["OTRO NOMBRE DEL BARRIO"];
+		}
+		if( "AÑO DE CONFORMACIÓN DEL BARRIO" in row ) {
+			row["AÑO_DE_CONFORMACIÓN_DEL_BARRIO"] = row["AÑO DE CONFORMACIÓN DEL BARRIO"];
+		}
+		if( "MODALIDAD EN LA QUE SE CONSTITUYÓ EL BARRIO" in row ) {
+			row["MODALIDAD_EN_LA_QUE_SE_CONSTITUYÓ_EL_BARRIO"] = row["MODALIDAD EN LA QUE SE CONSTITUYÓ EL BARRIO"];
+		}
+		if( "AÑO DE MAYOR CRECIMIENTO" in row ) {
+			row["AÑO_DE_MAYOR_CRECIMIENTO"] = row["AÑO DE MAYOR CRECIMIENTO"];
+		}
+		if( "NRO DE FLIAS" in row ) {
+			row["NRO_DE_FLIAS"] = row["NRO DE FLIAS"];
+		}
 
-  return bubble;
+		bubble = $('#' + this.name + '-bubble-template').tmpl(row).get(0);	
+	}
+	else {
+		bubble = $('#' + this.name + '-bubble-template').tmpl(row).get(0);
+	}
+	return bubble;
 }
 
 Layer.prototype.refreshMap = function(map) {
   Layer.bubble.close();
+  //Layer.infoBubble.close();
+  
+  	console.log("Layer.prototype.refreshMap - Source = " + this.source);
 
-  var options = {
-    query: {
-      select: 'location',
-      from: this.source
-    }
-  }
+	var options;
+	if (this.name == "es") {
+  		console.log("Layer.prototype.refreshMap es");
+		options = {
+    		query: {
+      			select: 'latitud',
+      			from: this.source
+    		}
+  		}
+  	}
+	else if (this.name == "barrios") {
+  		console.log("Layer.prototype.refreshMap barrios");
+  		options = {
+    		query: {
+      			select: 'Poligono',
+      			from: this.source
+    		}
+  		}
+  	}
+	else {
+  		console.log("Layer.prototype.refreshMap none");
+  		options = {
+    		query: {
+      			select: 'location',
+      			from: this.source
+    		}
+  		}
+	}
+
+// 	console.log("Layer.prototype.refreshMap none");
+//   		options = {
+//     		query: {
+//       			select: 'location',
+//       			from: this.source
+//     		}
+//   		}
+// 
 
   if (this.conditions.length > 0) options.query.where = this.conditions.join(" AND ");
 
@@ -294,12 +465,18 @@ Layer.prototype.refreshMap = function(map) {
 
   google.maps.event.addListener(this.ftLayer, 'click', function(e) {
     Layer.bubble.close();
+    //Layer.infoBubble.close();
 
     Layer.bubble.setContent(layer.getBubbleHTML(e.row));
+	//Layer.infoBubble.addTab('A Tab', layer.getBubbleHTML(e.row));
+	
     Layer.bubble.setPosition(e.latLng);
 
+	//Layer.infoBubble.open(map, e.latLng);
     Layer.bubble.open(map);
+    
     $(document.body).trigger('bubble.maps', Layer.bubble);
+    //$(document.body).trigger('bubble.maps', Layer.infoBubble);
   });
 }
 
@@ -590,7 +767,7 @@ $(function() {
       map.setCenter(Layer.stringToLatLng(this.getAttribute('data-center')));
 
       var layer = new google.maps.FusionTablesLayer({
-        suppressInfoWindows: false,
+        suppressInfoWindows: true,
         map: map
       });
 
