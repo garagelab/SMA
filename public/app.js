@@ -77,15 +77,15 @@ function initializeMap() {
                   { visibility: "off" }
                 ]
               }
-            ];
-  window.map = new google.maps.Map(document.getElementById('map'), {
-    center: avellaneda,
-    zoom: 13,
-    minZoom: 9,
-    mapTypeId: 'roadmap',
-    streetViewControl: false,
-    styles: mapStyles
-  });
+            ];	
+	window.map = new google.maps.Map(document.getElementById('map'), {
+    	center: avellaneda,
+    	zoom: 13,
+    	minZoom: 9,
+    	mapTypeId: 'roadmap',
+    	streetViewControl: false,
+    	styles: mapStyles
+  	});
 
 
 	// Partido de Avellaneda.
@@ -201,7 +201,7 @@ function refreshVisibleEntities() {
 }
 
 var bubble = null;
-//var infoBubble = null;
+var infoBubble = null;
 
 var COLUMNS = {
   barrios: [
@@ -285,18 +285,8 @@ function Layer(name, source) {
   	this.name = name;
   	this.source = source;
   	this.visible = true;
-
-	console.log("Layer = " + this.name);
-	console.log("Source = " + this.source);
-
-	if (this.name == "barrio_de_avellaneda") {
-  		console.log("Layer barrio_de_avellaneda");
-	}
 	
 	if (this.name == "es") {
-
-  		console.log("Layer es");
-
   		this.ftLayer = new google.maps.FusionTablesLayer({
     		suppressInfoWindows: true,
     		query: {
@@ -344,9 +334,6 @@ function Layer(name, source) {
 //   		});
 //  	}
 	else {
-
-	  	console.log("Layer none");
-
   		this.ftLayer = new google.maps.FusionTablesLayer({
     		suppressInfoWindows: true
   		});
@@ -356,7 +343,7 @@ function Layer(name, source) {
 }
 
 Layer.bubble = new google.maps.InfoWindow();
-//Layer.infoBubble = new InfoBubble();
+Layer.infoBubble = new InfoBubble();
 
 Layer.prototype.hide = function() {
   this.visible = false;
@@ -409,15 +396,44 @@ Layer.prototype.getBubbleHTML = function(row) {
 	return bubble;
 }
 
+Layer.prototype.getBubbleAddHTML = function(row) {
+	var bubble;
+	if (this.name == "es") {
+		if( "Código SISA" in row ) {
+			row["Código_SISA"] = row["Código SISA"];
+		}
+		if( "Cantidad de partos en 2011" in row ) {
+			row["Cantidad_de_partos_en_2011"] = row["Cantidad de partos en 2011"];
+		}
+		if( "Tipo de Establecimiento" in row ) {
+			row["Tipo_de_Establecimiento"] = row["Tipo de Establecimiento"];
+		}
+		if( "Participa Plan Nacer" in row ) {
+			row["Participa_Plan_Nacer"] = row["Participa Plan Nacer"];
+		}
+		if( "Comentario/ especialidades" in row ) {
+			row["Comentario_especialidades"] = row["Comentario/ especialidades"];
+		}
+ 		
+		if (row["Hospital"].value == "X") {
+			bubble = $('#' + this.name + '-bubble-es-hospital-add').tmpl(row).get(0);
+		}
+		else {
+			bubble = $('#' + this.name + '-bubble-es-unidad-add').tmpl(row).get(0);		
+		}	
+	}
+	else {
+		bubble = $('#' + this.name + '-bubble-template').tmpl(row).get(0);
+	}
+	return bubble;
+}
+
 Layer.prototype.refreshMap = function(map) {
-  Layer.bubble.close();
-  //Layer.infoBubble.close();
-  
-  	console.log("Layer.prototype.refreshMap - Source = " + this.source);
+  	Layer.bubble.close();
+  	Layer.infoBubble.close();
 
 	var options;
 	if (this.name == "es") {
-  		console.log("Layer.prototype.refreshMap es");
 		options = {
     		query: {
       			select: 'latitud',
@@ -426,7 +442,6 @@ Layer.prototype.refreshMap = function(map) {
   		}
   	}
 	else if (this.name == "barrios") {
-  		console.log("Layer.prototype.refreshMap barrios");
   		options = {
     		query: {
       			select: 'Poligono',
@@ -435,7 +450,6 @@ Layer.prototype.refreshMap = function(map) {
   		}
   	}
 	else {
-  		console.log("Layer.prototype.refreshMap none");
   		options = {
     		query: {
       			select: 'location',
@@ -465,18 +479,39 @@ Layer.prototype.refreshMap = function(map) {
 
   google.maps.event.addListener(this.ftLayer, 'click', function(e) {
     Layer.bubble.close();
-    //Layer.infoBubble.close();
+    Layer.infoBubble.close();
 
-    Layer.bubble.setContent(layer.getBubbleHTML(e.row));
-	//Layer.infoBubble.addTab('A Tab', layer.getBubbleHTML(e.row));
-	
-    Layer.bubble.setPosition(e.latLng);
+//    Layer.bubble.setContent(layer.getBubbleHTML(e.row));	
+//    Layer.bubble.setPosition(e.latLng);
 
-	//Layer.infoBubble.open(map, e.latLng);
-    Layer.bubble.open(map);
-    
-    $(document.body).trigger('bubble.maps', Layer.bubble);
-    //$(document.body).trigger('bubble.maps', Layer.infoBubble);
+	Layer.infoBubble = new InfoBubble({
+    	map: map,
+        position: e.latLng,
+//         shadowStyle: 1,
+//         padding: 0,
+//         backgroundColor: 'rgb(57,57,57)',
+//         borderRadius: 4,
+//         arrowSize: 10,
+//         borderWidth: 1,
+//         borderColor: '#2c2c2c',
+//         disableAutoPan: true,
+//         hideCloseButton: true,
+//         arrowPosition: 30,
+//         backgroundClassName: 'phoney',
+//         arrowStyle: 2
+    });
+
+	Layer.infoBubble.addTab('Información de', layer.getBubbleHTML(e.row));
+
+ 	if (layer.name == "es") {
+		Layer.infoBubble.addTab('ver más', layer.getBubbleAddHTML(e.row));
+ 	}
+
+	Layer.infoBubble.open();
+    $(document.body).trigger('bubble.maps', Layer.infoBubble);
+
+//    Layer.bubble.open(map);    
+//    $(document.body).trigger('bubble.maps', Layer.bubble);
   });
 }
 
