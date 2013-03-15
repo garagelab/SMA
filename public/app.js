@@ -117,11 +117,10 @@ function refresh() {
     var $all = $("input", this);
     var $checked = $all.filter(":checked");
     var layers = Layer.find(this.parentNode.getAttribute('data-target-layer'));
-
+  		
     if ($checked.length > 0 && $checked.length != $all.length) {
       var values = $.map($checked, function(e) { return "'" + e.getAttribute('value') + "'"; });
       var field = this.getAttribute('data-facet');
-
       $.each(layers, function() { this.conditions.push("'" + field + "' IN (" + values.join(", ") + ")"); });
     }
 
@@ -201,7 +200,6 @@ function refreshVisibleEntities() {
 }
 
 var bubble = null;
-var infoBubble = null;
 
 var COLUMNS = {
   barrios: [
@@ -343,7 +341,7 @@ function Layer(name, source) {
 }
 
 Layer.bubble = new google.maps.InfoWindow();
-Layer.infoBubble = new InfoBubble();
+//Layer.bubble = new InfoBubble();
 
 Layer.prototype.hide = function() {
   this.visible = false;
@@ -361,6 +359,22 @@ Layer.prototype.getBubbleHTML = function(row) {
 		if( "Código Postal" in row ) {
 			row["Código_Postal"] = row["Código Postal"];
 		}
+		if( "Código SISA" in row ) {
+			row["Código_SISA"] = row["Código SISA"];
+		}
+		if( "Cantidad de partos en 2011" in row ) {
+			row["Cantidad_de_partos_en_2011"] = row["Cantidad de partos en 2011"];
+		}
+		if( "Tipo de Establecimiento" in row ) {
+			row["Tipo_de_Establecimiento"] = row["Tipo de Establecimiento"];
+		}
+		if( "Participa Plan Nacer" in row ) {
+			row["Participa_Plan_Nacer"] = row["Participa Plan Nacer"];
+		}
+		if( "Comentario/ especialidades" in row ) {
+			row["Comentario_especialidades"] = row["Comentario/ especialidades"];
+		}
+
 		if (row["Hospital"].value == "X") {
 			bubble = $('#' + this.name + '-bubble-es-hospital').tmpl(row).get(0);
 		}
@@ -430,7 +444,6 @@ Layer.prototype.getBubbleAddHTML = function(row) {
 
 Layer.prototype.refreshMap = function(map) {
   	Layer.bubble.close();
-  	Layer.infoBubble.close();
 
 	var options;
 	if (this.name == "es") {
@@ -477,42 +490,60 @@ Layer.prototype.refreshMap = function(map) {
 
   var layer = this;
 
-  google.maps.event.addListener(this.ftLayer, 'click', function(e) {
-    Layer.bubble.close();
-    Layer.infoBubble.close();
+/*
+	google.maps.event.addListener(this.ftLayer, 'click', function(e) {
+    	Layer.bubble.close();
+        	
+// 		if (Layer.bubble.isOpen()) {
+//             console.log("infoBubble ist bereits offen.");
+// 			return false;
+//         }
+          
+		console.log("ich bin hier in google.maps.event.addListener");
 
-//    Layer.bubble.setContent(layer.getBubbleHTML(e.row));	
-//    Layer.bubble.setPosition(e.latLng);
+		Layer.bubble = new InfoBubble({
+    		map: map,
+        	position: e.latLng,
+//         	shadowStyle: 1,
+//         	padding: 0,
+//         	backgroundColor: 'rgb(57,57,57)',
+//         	borderRadius: 4,
+//         	arrowSize: 10,
+//         	borderWidth: 1,
+//         	borderColor: '#2c2c2c',
+//         	disableAutoPan: true,
+//         	hideCloseButton: true,
+//         	arrowPosition: 30,
+//         	backgroundClassName: 'phoney',
+//         	arrowStyle: 2
+    	});
 
-	Layer.infoBubble = new InfoBubble({
-    	map: map,
-        position: e.latLng,
-//         shadowStyle: 1,
-//         padding: 0,
-//         backgroundColor: 'rgb(57,57,57)',
-//         borderRadius: 4,
-//         arrowSize: 10,
-//         borderWidth: 1,
-//         borderColor: '#2c2c2c',
-//         disableAutoPan: true,
-//         hideCloseButton: true,
-//         arrowPosition: 30,
-//         backgroundClassName: 'phoney',
-//         arrowStyle: 2
-    });
+		Layer.bubble.addTab('Información de', layer.getBubbleHTML(e.row));
 
-	Layer.infoBubble.addTab('Información de', layer.getBubbleHTML(e.row));
+ 		if (layer.name == "es") {
+			Layer.bubble.addTab('<strong style="color:#4169e1;">ver más</strong>', 
+									layer.getBubbleAddHTML(e.row));
+ 		}
 
- 	if (layer.name == "es") {
-		Layer.infoBubble.addTab('ver más', layer.getBubbleAddHTML(e.row));
- 	}
+		Layer.bubble.open();
+    	$(document.body).trigger('bubble.maps', Layer.bubble);
+	});
+*/
 
-	Layer.infoBubble.open();
-    $(document.body).trigger('bubble.maps', Layer.infoBubble);
+	// InfoWindow
+	google.maps.event.addListener(this.ftLayer, 'click', function(e) {
+		Layer.bubble.close();
 
-//    Layer.bubble.open(map);    
-//    $(document.body).trigger('bubble.maps', Layer.bubble);
-  });
+		Layer.bubble.setContent(layer.getBubbleHTML(e.row));	
+    	Layer.bubble.setPosition(e.latLng);
+
+    	Layer.bubble.open(map);    
+	    $(document.body).trigger('bubble.maps', Layer.bubble);
+
+   		google.maps.event.addListener(Layer.bubble, 'domready', function () {
+        	$("#tabs-bubble").tabs();
+    	});
+   });
 }
 
 Layer.prototype.getMap = function() {
@@ -579,7 +610,7 @@ $(function() {
 
   window.layersOnMap = $.makeArray($('#layers li').map(function() { return this.getAttribute('data-layer-name'); })).join(',');
 
-  $('.filter').delegate('input', 'click', function(e) {
+  $('.filter').delegate('input', 'click', function(e) {  
     refresh();
     e.stopPropagation();
   });
@@ -707,6 +738,33 @@ $(function() {
   $('.dataTables_scrollBody').wrap('<div class="dataTables_scrollBodyWrapper" />');
 
   $sidebar.delegate('input', 'click', function(e) {
+
+//////////////////////////////////////////////////////////
+//	14/03/13 16:10
+//	A petición del cliente, la lógica se ha cambiado.
+//	Andreas Hempfling <andreas.hempfling@gmail.com>
+//////////////////////////////////////////////////////////
+
+//  	console.log("$sidebar.delegate() => " + this.id);
+
+	if (this.id == 'establecimientos') {
+   		if (!$('#establecimientos').is(':checked')) {
+ 			$('#hospitales').attr('checked', false);
+	 		$('#cesacs').attr('checked', false);
+		}
+		else {
+ 			$('#hospitales').attr('checked', true);
+	 		$('#cesacs').attr('checked', true);
+		}	   	
+	}
+	if (this.id == 'hospitales' || this.id == 'cesacs') {
+	   	if (!($('#hospitales').is(':checked') && $('#cesacs').is(':checked'))) {
+	 		$('#establecimientos').attr('checked', false);					
+		}
+	
+	}
+//////////////////////////////////////////////////////////
+
     refreshVisibleEntities();
     refresh();
   });

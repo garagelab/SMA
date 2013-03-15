@@ -1,9 +1,32 @@
     <div id='sidebar'>
       <h2>¿Qué estás viendo?</h2>
       <ul id='layers'>
+
+        <li data-layer-name='es' class='es'>
+          <header>
+            <input type='checkbox' id='establecimientos' name='entity' value='es' checked> Establecimientos de salud
+            <a href='#filters-es' class='expand'></a>		
+            <img style="vertical-align:bottom;" src="/images/down_32_32.png" width="16" height="16"/>
+          </header>
+
+          <!-- Inicio Filtro de Establecimientos de salud -->
+
+          <div id='filters-es' class='entity-filter' data-target-layer='es'>
+            <section class='filter facet' data-facet='Hospital' style='display: block'>
+              <header>Tipos de establecimientos</header>
+              <div>
+                <label style="color:#ff0000;"><input type='checkbox' id='hospitales' name='hospitales' value='X' checked>Hospitales</label>
+                <label style="color:#32cd32;"><input type='checkbox' id='cesacs' name='cesacs' value='' checked>Centros de atención primaria</label>
+              </div>
+            </section>
+          </div>
+
+          <!-- Cierro Filtro de Establecimientos de salud -->
+        </li>
+
         <li data-layer-name='barrios' class='barrios'>
           <header>
-            <input type='checkbox' name='entity' value='barrios' checked> Barrios
+            <input type='checkbox' id='barrios' name='entity' value='barrios' checked> Barrios
             <a href='#filters-barrios' class='expand'></a>
           </header>
 
@@ -24,27 +47,7 @@
           <!-- Cierro Filtro de Barrios -->
         </li>
 
-        <li data-layer-name='es' class='es'>
-          <header>
-            <input type='checkbox' name='entity' value='es' checked> Establecimientos de salud
-            <a href='#filters-es' class='expand'></a>		
-            <img style="vertical-align:bottom;" src="/images/down_32_32.png" width="32" height="32"/>
-          </header>
 
-          <!-- Inicio Filtro de Establecimientos de salud -->
-
-          <div id='filters-es' class='entity-filter' data-target-layer='es'>
-            <section class='filter facet' data-facet='Hospital' style='display: block'>
-              <header>Tipos de establecimientos</header>
-              <div>
-                <label style="color:#ff0000;"><input type='checkbox' value='X' checked>Hospitales</label>
-                <label style="color:#32cd32;"><input type='checkbox' value='' checked>Centros de atención primaria</label>
-              </div>
-            </section>
-          </div>
-
-          <!-- Cierro Filtro de Establecimientos de salud -->
-        </li>
    </ul>
 
    <div class='views'>
@@ -55,17 +58,36 @@
 
    <br />
 
-	<div  class='link-testimonios'>
-		<h2>
-<!-- 
-		<a href='/contenido/testimonios'>
- -->
-		<a href="https://docs.google.com/forms/d/1_IvnvECd0ZAD9cTKrjXUgdiSurhTrhqqksRHX8wHBtA/viewform" target="_blank">
-    	<img style="vertical-align:bottom;" src="/images/form_32_32.png" width="32" height="32"/>Testimonios<img src="/images/link_32_32.png" width="32" height="32"/>
-		</a>
-    	</h2>
-	</div>
+    <h2>Testimonios</h2>
+    	<!-- Formularios -->
+    	
+    	<!-- Embarazo y controles prenatales -->
+		&nbsp;&nbsp;
+		<a href="https://docs.google.com/forms/d/1Zv6BEPLkPnZsuBDUcKLE1GNzPZZu9PxRWT8uhk05biI/viewform" target="_blank">
+    	<img style="vertical-align:bottom;" src="/images/form_32_32.png" width="24" height="24"/>Embarazo y controles prenatales</a>&nbsp;<img src="/images/link_32_32.png" width="16" height="16"/>
+		<br />
+		<!-- Parto -->
+		&nbsp;&nbsp;
+		<a href="https://docs.google.com/forms/d/1PVa4NYs7_Hpmtd73g0ID2GKL7NCJyUk32iEFHMMIqF8/viewform" target="_blank">
+    	<img style="vertical-align:bottom;" src="/images/form_32_32.png" width="24" height="24"/>Parto</a>&nbsp;<img src="/images/link_32_32.png" width="16" height="16"/>
+		<br />
+		<!-- Internación por complicaciones -->
+		&nbsp;&nbsp;
+		<a href="https://docs.google.com/forms/d/1ZVMo1vgdWb5gwNj5wWIcMxFBoBDdc4PBsU3880sdj_Y/viewform" target="_blank">
+    	<img style="vertical-align:bottom;" src="/images/form_32_32.png" width="24" height="24"/>Internación por complicaciones</a>&nbsp;<img src="/images/link_32_32.png" width="16" height="16"/>
+		<br />
+		<!-- Menores de 20 años sin embarazo -->
+		&nbsp;&nbsp;
+		<a href="https://docs.google.com/forms/d/1Atn9FxLC-gImg4qoQY80j1muiC_7W-Eb8YVk9eSu0n0/viewform" target="_blank">
+    	<img style="vertical-align:bottom;" src="/images/form_32_32.png" width="24" height="24"/>Menores de 20 años sin embarazo</a>&nbsp;<img src="/images/link_32_32.png" width="16" height="16"/>
 
+		<br />
+		<br />
+
+		<!-- Evaluaciones de los testimonios -->
+		<form action="/contenido/testimonios">
+			&nbsp;&nbsp;&nbsp;<input type=submit value="Evaluaciones"><a href="/contenido/testimonios" ></a>
+		</form>
 </div>
 
 <!-- Posicion original de filtros -->
@@ -82,7 +104,12 @@
 
 <!-- infoWindow for Barrios -->
 <script type='text/html' id='barrios-bubble-template'>
-	<div class='bubble'>
+	<div class="bubble-es" id="tabs-bubble">
+  		<ul>
+    		<li><a href="#tab-1"><span>Información de</span></a></li>
+    		<li><a href="#tab-2"><span>ver más</span></a></li>
+  		</ul>  		
+  		<div id="tab-1">
 		<table>
 			<tr>
 				<td><img src="/images/icon_city.gif" width="40" height="40" /></td>
@@ -99,9 +126,22 @@
 			<tr><td><strong>AÑO DE MAYOR CRECIMIENTO:</strong></td><td>${AÑO_DE_MAYOR_CRECIMIENTO.value}</td></tr>
 			<tr><td><strong>NRO DE FAMILIAS:</strong></td><td>${NRO_DE_FLIAS.value}</td></tr>
 		</table>
+		</div>
+  		<div id="tab-2">
+		<table>
+			<tr>
+				<td><img src="/images/icon_city.gif" width="40" height="40" /></td>
+				<td><h1>${NOMBRE_DEL_BARRIO.value}</h1></td>
+			</tr>		
+		</table>
+		<hr>
+		<table>
+			<tr><td><strong>--:</strong></td><td>--</td></tr>
+		</table>
+		</div>		
 	</div>
-</div>
 </script>
+
 
 <!-- 
     {sName: "ACTORES QUE PARTICIPAN DE LA VENTA 2", sTitle: "ACTORES QUE PARTICIPAN DE LA VENTA 2", bVisible: true},
@@ -126,7 +166,12 @@
 
 <!-- infoWindow (Popup) de los Establecimientos de Salud (Unidades) -->
 <script type='text/html' id='es-bubble-es-unidad'>
-	<div class="bubble-es">
+	<div class="bubble-es" id="tabs-bubble">
+  		<ul>
+    		<li><a href="#tab-1"><span>Información de</span></a></li>
+    		<li><a href="#tab-2"><span>ver más</span></a></li>
+  		</ul>  		
+  		<div id="tab-1">
 		<table>
 			<tr>
 				<td><img src="/images/green_cross_64_64.png" width="40" height="40" /></td>
@@ -143,12 +188,8 @@
 			<tr><td><strong>Teléfono:</strong></td><td>${Teléfono.value}</td></tr>
 			<tr><td><strong>Teléfono 2:</strong></td><td>${Teléfono2.value}</td></tr>
 		</table>
-	</div>
-</script>
-
-<!-- infoWindow (Popup) adicional de los Establecimientos de Salud (Unidades) -->
-<script type='text/html' id='es-bubble-es-unidad-add'>
-	<div class="bubble-es">
+		</div>
+  		<div id="tab-2">
 		<table>
 			<tr>
 				<td><img src="/images/green_cross_64_64.png" width="40" height="40" /></td>
@@ -164,12 +205,18 @@
 			<tr><td><strong>Participa Plan Nacer:</strong></td><td>${Participa_Plan_Nacer.value}</td></tr>
 			<tr><td><strong>Comentario/ especialidades:</strong></td><td>${Comentario_especialidades.value}</td></tr>
 		</table>
+		</div>		
 	</div>
 </script>
 
 <!-- infoWindow (Popup) de los Establecimientos de Salud (Hospitales) -->
 <script type='text/html' id='es-bubble-es-hospital'>
-	<div class="bubble-es">
+	<div class="bubble-es" id="tabs-bubble">
+  		<ul>
+    		<li><a href="#tab-1"><span>Información de</span></a></li>
+    		<li><a href="#tab-2"><span>ver más</span></a></li>
+  		</ul>  		
+  		<div id="tab-1">
 		<table>
 			<tr>
 				<td><img src="/images/red_cross_64_64.png" width="40" height="40" /></td>
@@ -186,12 +233,8 @@
 			<tr><td><strong>Teléfono:</strong></td><td>${Teléfono.value}</td></tr>
 			<tr><td><strong>Teléfono 2:</strong></td><td>${Teléfono2.value}</td></tr>
 		</table>
-	</div>
-</script>
-
-<!-- infoWindow (Popup) adicional de los Establecimientos de Salud (Hospitales) -->
-<script type='text/html' id='es-bubble-es-hospital-add'>
-	<div class="bubble-es">
+		</div>
+  		<div id="tab-2">
 		<table>
 			<tr>
 				<td><img src="/images/red_cross_64_64.png" width="40" height="40" /></td>
@@ -207,6 +250,7 @@
 			<tr><td><strong>Participa Plan Nacer:</strong></td><td>${Participa_Plan_Nacer.value}</td></tr>
 			<tr><td><strong>Comentario/ especialidades:</strong></td><td>${Comentario_especialidades.value}</td></tr>
 		</table>
+		</div>		
 	</div>
 </script>
 

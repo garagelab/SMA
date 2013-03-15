@@ -203,10 +203,6 @@ body > nav {
   margin-left: 34px;
 }
 
-.link-testimonios {
-
-}
-
 /* line 168, ../sass/styles.scss */
 .filter {
   position: relative;
@@ -642,7 +638,9 @@ a {
 }
 
 a:hover {
-	color: #87AECD;
+/* 	color: #87AECD; */
+	color: #89C13C;
+
   	text-decoration: underline;
 }
 
@@ -876,11 +874,11 @@ a:hover {
 /* 
 	color: #7DA528;
  */
-	color: #000000,
+	color: #000000;
 	background-color: #ffffff;
   	font-size: 1em;
   	line-height: 1.2em;
-  	margin: 0px;
+  	margin: 0;
 }
 
 /* line 695, ../sass/styles.scss */
@@ -893,8 +891,11 @@ a:hover {
   box-sizing: border-box;
   line-height: 1.2em;
 }
+
 /* line 703, ../sass/styles.scss */
 .bubble h1 {
+	color: #000000;
+	background-color: #ffffff;
   font-size: 1em;
   line-height: 1.2em;
   margin: 0;
