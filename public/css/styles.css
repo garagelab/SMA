@@ -858,6 +858,11 @@ a:hover {
   right: 0;
 }
 
+#infoWindow {
+    width: 450px;
+  	height: 300px;
+}
+
 .bubble-es {
 	color: #000000;
 	background-color: #ffffff;
