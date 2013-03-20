@@ -6,6 +6,9 @@ require "sinatra/base"
 require "sequel"
 require "json"
 #require "google_drive"
+require "nokogiri"
+require "open-uri"
+require "table_parser"
 
 Tilt.register 'md', Tilt::RDiscountTemplate
 
@@ -13,10 +16,19 @@ DB = Sequel.connect("fusiontables:///")
 
 FusionTables::Connection::URL = URI.parse("http://tables.googlelabs.com/api/query")
 
+# Google Fusion tables keys.
 TABLES = {
 	:barrios => '1_fEVSZmIaCJzDQoOgTY7pIcjBLng1MFOoeeTtYY'.to_sym,
   	#:barrios => '1ePInQ8wuWBsfXcXczd0j3bp7qFFw2v-tXn_g_Rw'.to_sym,
   	:es      => '1srzoUc6ovddAOlLSYRRxZdF41Z6nLwxYnFFF7rM'.to_sym,
+}
+
+# Respuestas de los formularios (google spreadsheet keys).
+RESPUESTAS = {
+	:embarazo => "0AphQI4-3PsVcdEtDdi1oRHVzREwtVS1fZEx1c19GTUE",
+	:parto => "0Asjo1LSXGKxCdFhZUlE4cUpLQWItR3lMMnIyNTQ5MFE",
+	:complicaciones => "0Asjo1LSXGKxCdDY4VFVjalBOd1owQTd1a1FwcVh4TUE",
+	:menores_de_20_anos => "0AphQI4-3PsVcdGhPX0RMTVJYcy1obGFvZ3I5VGVlOGc"
 }
 
 Barrios = DB[TABLES[:barrios]]
@@ -48,6 +60,13 @@ class SMA < Sinatra::Base
         "No"
       end
     end
+
+    def number_with_delimeter(value)
+      #
+      # Add thousands separators to numbers.
+      #
+      value.to_s.gsub(/(\d)(?=(\d\d\d)+(?!\d))/, "\\1.")
+    end
   end
 
   set :app_file, __FILE__
@@ -65,61 +84,72 @@ class SMA < Sinatra::Base
     end
 
 # 	####################################################
-# 	# Testing google spreadsheet interface.
-# 	# require "google_drive"
+# 	# Testing nokogiri HTML-Parser.
+# 	# require "nokogiri"
 # 	####################################################
-# 
-# 	# Log in using simple but insecure method.
-# 	# You can also use OAuth. See below and also
-# 	# GoogleDrive.login_with_oauth for details.
-# 	#session = GoogleDrive.login("username@gmail.com", "mypassword")
-# 
-# 	# Log in using OAuth.
-# 	client = OAuth2::Client.new(
-#     			account["oauth2_client_id"],
-#     			account["oauth2_client_secret"],
-#                 :site => "https://accounts.google.com",
-#                 :token_url => "/o/oauth2/token",
-#                 :authorize_url => "/o/oauth2/auth")
-#     redirect_url = "urn:ietf:wg:oauth:2.0:oob"
-#     url = client.auth_code.authorize_url(
-#     		:redirect_uri => redirect_url,
-#             :scope =>
-#             	"https://docs.google.com/feeds/ " +
-#                 "https://docs.googleusercontent.com/ " +
-#                 "https://spreadsheets.google.com/feeds/")
-#     print("Open this URL in Web browser:\n  %s\nPaste authorization code here: " % url)
-#     #code = gets().chomp()
-#     code = url
-#     token = client.auth_code.get_token(code, :redirect_uri => redirect_url)
-# 	session = GoogleDrive.login_with_oauth(token)
-# 
-# 	# Get worksheet for testing
-# 	#https://docs.google.com/spreadsheet/ccc?key=0AqnLGJPBUteMdHdlNXBhMmpuOE9TRkJGM21UQWFDbFE
-# 	ws = session.spreadsheet_by_key("0AqnLGJPBUteMdHdlNXBhMmpuOE9TRkJGM21UQWFDbFE").worksheets[0]
-# 
-# # Gets content of A2 cell.
-# p ws[2, 1]  #==> "hoge"
-# 
-# # Changes content of cells.
-# # Changes are not sent to the server until you call ws.save().
-# ws[2, 1] = "foo"
-# ws[2, 2] = "bar"
-# ws.save()
-# 
-# # Dumps all cells.
-# for row in 1..ws.num_rows
-#   for col in 1..ws.num_cols
-#     p ws[row, col]
-#   end
-# end
-# 
-# # Yet another way to do so.
-# p ws.rows  #==> [["fuga", ""], ["foo", "bar]]
-# 
-# # Reloads the worksheet to get changes by other clients.
-# ws.reload()
+	https_docs_google_spreadsheet = "https://docs.google.com/spreadsheet/"
+
+	url_embarazo = https_docs_google_spreadsheet + "pub?key=" + RESPUESTAS[:embarazo] + "&output=html"
+	url_parto = https_docs_google_spreadsheet + "pub?key=" + RESPUESTAS[:parto] + "&output=html"
+	url_complicaciones = https_docs_google_spreadsheet + "pub?key=" + RESPUESTAS[:complicaciones] + "&output=html"
+	url_menores_de_20_anos = https_docs_google_spreadsheet + "pub?key=" + RESPUESTAS[:menores_de_20_anos] + "&output=html"
+
+	# Read content of html pages. 
+    doc_embarazo = open(url_embarazo)
+    doc_parto = open(url_parto)
+	doc_complicaciones = open(url_complicaciones) 
+	doc_menores_de_20_anos = open(url_menores_de_20_anos)
 	
+	# Parse html content.
+    @html_content_embarazo = Nokogiri::HTML(doc_embarazo)
+    @html_content_parto = Nokogiri::HTML(doc_parto)
+    @html_content_complicaciones = Nokogiri::HTML(doc_complicaciones)
+    @html_content_menores_de_20_anos = Nokogiri::HTML(doc_menores_de_20_anos)
+
+	# Titles
+	@title_embarazo = @html_content_embarazo.xpath('//html/head/title').text
+	@title_parto = @html_content_parto.xpath('//html/head/title').text
+	@title_complicaciones = @html_content_complicaciones.xpath('//html/head/title').text
+	@title_menores_de_20_anos = @html_content_menores_de_20_anos.xpath('//html/head/title').text
+
+	# Evaluate total rows for every table.
+ 	@total_embarazo = 0
+	extract = @html_content_embarazo.xpath("//table[@id='tblMain']")
+	extract.search('tr').each do |element|
+   		@total_embarazo += 1
+	end	
+# 	@total_embarazo -= 1 # Subtract table header row.
+# 	@total_embarazo = 0 if @total_embarazo < 0
+
+ 	@total_parto = 0
+ 	table_rows = @html_content_parto.css('table#tblMain').each do |element|
+   		@total_parto += 1 if element.xpath("/tr")
+	end
+	@total_parto = 0 if @total_parto < 0
+
+ 	@total_complicaciones = 0
+ 	table_rows = @html_content_complicaciones.css('table#tblMain').each do |element|
+   		@total_complicaciones += 1 if element.xpath("/tr")
+	end
+	@total_complicaciones = 0 if @total_complicaciones < 0
+
+ 	@total_menores_de_20_anos = 0
+# 	@html_content_menores_de_20_anos.css('table#tblMain') .each do |element|
+#	extract = @html_content_complicaciones.xpath("//table[@id='tblMain']")
+#	extract = @html_content_complicaciones.css("html body div#content table#tblMain.tblGenFixed")
+ 	@html_content_menores_de_20_anos.search('table#tblMain', '/tr').each do |element|
+#	extract.search('tr').each do |element|
+   		@total_menores_de_20_anos += 1
+	end
+	
+	
+#	@total_menores_de_20_anos -= 1 # Subtract table header row.
+#	@total_menores_de_20_anos = 0 if @total_menores_de_20_anos < 0
+	
+	# Evaluate total of all testimonios.
+	@total_testimonios = @total_embarazo + @total_parto + @total_complicaciones + @total_menores_de_20_anos
+
+# 	####################################################
 
   end
 

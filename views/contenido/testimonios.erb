@@ -1,10 +1,72 @@
-<div id='main' role='main' class='content'>
+<div id='testimonios' role='main' class='content'>
 
-	<h2>Evaluaciones</h2>
+<h1>Evaluaciones</h1>
 
-<p>
-	<code style="color:red;"><strong>Por hacer: Insertar evaluaciones aquí.</strong></code>
-</p>
-	
-	<a href='/'>atrás<a>
+
+<!-- <a href='/'>atrás<a> -->
+
+
+<ul  type="circle">
+	<li><a href="#report1"><font size=4><%= @title_embarazo %></font></a></li>
+	<li><a href="#report2"><font size=4><%= @title_parto %></font></a></li>
+	<li><a href="#report3"><font size=4><%= @title_complicaciones %></font></a></li>
+	<li><a href="#report4"><font size=4><%= @title_menores_de_20_anos %></font></a></li>
+</ul>
+
+<!-- 
+<#%= number_with_delimeter(@total_embarazo.to_i) %>
+<br />
+<#%= number_with_delimeter(@total_parto.to_i) %>
+<br />
+<#%= number_with_delimeter(@total_complicaciones.to_i) %>
+<br />
+<#%= number_with_delimeter(@total_menores_de_20_anos.to_i) %>
+ -->
+
+<br /><br />
+
+<!-- Quiero hablar sobre mi embarazo y los controles prenatales -->
+<h2 id="report1"><%= @title_embarazo %></h2>
+<iframe 
+	width='1100' 
+	height='700' 
+	frameborder='1' 
+	src='https://docs.google.com/spreadsheet/pub?key=0AphQI4-3PsVcdEtDdi1oRHVzREwtVS1fZEx1c19GTUE&output=html&widget=true'>
+</iframe>
+<br /><br />
+<a href='#top'><img style="vertical-align:bottom;" src="/images/arrow_top.png"/></a>
+
+<!-- Quiero hablar sobre mi experiencia en mi parto -->
+<h2 id="report2"><%= @title_parto %></h2>
+<iframe 
+	width='1100' 
+	height='700' 
+	frameborder='1' 
+	src='https://docs.google.com/spreadsheet/pub?key=0Asjo1LSXGKxCdFhZUlE4cUpLQWItR3lMMnIyNTQ5MFE&output=html&widget=true'>
+</iframe>
+<br /><br />
+<a href='#top'><img style="vertical-align:bottom;" src="/images/arrow_top.png"/></a>
+
+<!-- Quiero hablar sobre una complicación que derivó en internación -->
+<h2 id="report3"><%= @title_complicaciones %></h2>
+<iframe 
+	width='1100' 
+	height='700' 
+	frameborder='1' 
+	src='https://docs.google.com/spreadsheet/pub?key=0Asjo1LSXGKxCdDY4VFVjalBOd1owQTd1a1FwcVh4TUE&output=html&widget=true'>
+</iframe>
+<br /><br />
+<a href='#top'><img style="vertical-align:bottom;" src="/images/arrow_top.png"/></a>
+
+<!-- Menores de 20 años sin embarazos -->
+<h2 id="report4"><%= @title_menores_de_20_anos %></h2>
+<iframe 
+	width='1100' 
+	height='700' 
+	frameborder='1' 
+	src='https://docs.google.com/spreadsheet/pub?key=0AphQI4-3PsVcdGhPX0RMTVJYcy1obGFvZ3I5VGVlOGc&output=html&widget=true'>
+</iframe>
+<br /><br />
+<a href='#top'><img style="vertical-align:bottom;" src="/images/arrow_top.png"/></a>
+
 </div>

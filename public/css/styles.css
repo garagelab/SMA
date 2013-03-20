@@ -480,6 +480,18 @@ body > nav {
   z-index: 0;
 }
 
+#testimonios.content {
+  width: auto;
+  margin: 0 auto;
+  background: #fff;
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 0 20px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 0 20px;
+  -o-box-shadow: rgba(0, 0, 0, 0.2) 0 0 20px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 0 20px;
+  padding: 10px 35px;
+}
+
+
 /* line 372, ../sass/styles.scss */
 #main.content {
   width: 800px;
