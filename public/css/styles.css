@@ -19,6 +19,7 @@ hr {
 }
 
 /* line 35, ../sass/styles.scss */
+/* 
 html, body {
   font: 12px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -26,60 +27,78 @@ html, body {
   margin: 0;
   padding: 0;
 }
+ */
 
 /* line 43, ../sass/styles.scss */
+/* 
 header, footer, section, nav {
   display: block;
 }
+ */
 
-/* line 47, ../sass/styles.scss */
-body {
-  background: #e0e0e0;
-}
-
-/* line 51, ../sass/styles.scss */
-body > header {
-/*  background: url('/images/exclusive_paper.png') repeat center center;
-*/  background: #ffffff;
+/* 
+  background: #ffffff;
   -moz-box-shadow: 0px 0px 5px #333333;
   -webkit-box-shadow: 0px 0px 5px #333333;
   -o-box-shadow: 0px 0px 5px #333333;
   box-shadow: 0px 0px 5px #333333;
-  color: #fff;
+  color: #000;
   display: block;
-  height: 48px;
+  height: 40px;
   min-width: 960px;
   position: relative;
   z-index: 3;
+	margin: 0;
+	padding-top:2px;
+	padding-bottom:10px;
+	padding-right:20px;
+	padding-left:20px;
+ */
 }
+
 /* line 61, ../sass/styles.scss */
+/* 
 body > header h1 {
   margin: 0;
 }
+ */
+
 /* line 67, ../sass/styles.scss */
+/* 
 body > header h1 a {
   font-size: .85em;
 /*  color: #038A90;
   	color: #008800;
-*/	color: #2EFE2E;
+	color: #2EFE2E;
+*/
+/* 
   line-height: 48px;
   margin: 0;
   text-decoration: none;
+ */
 }
+ */
+
 /* line 75, ../sass/styles.scss */
 body > header .social {
+/* 
   position: absolute;
   top: 12px;
   right: 0;
+ */
 }
 /* line 80, ../sass/styles.scss */
 body > header .social > * {
+/* 
   margin: 0 5px 0 0 !important;
+ */
 }
 /* line 84, ../sass/styles.scss */
 body > header .social .facebook {
+/* 
   position: relative;
   top: 1px;
+ */
 }
 
 /* line 91, ../sass/styles.scss */
@@ -347,18 +366,28 @@ body > nav {
   box-shadow: 0px 0px 5px #333333;
   height: 100%;
   overflow: auto;
-  padding-top: 48px;
   position: absolute;
   top: 0;
   width: 280px;
   z-index: 2;
+	margin: 0;
+/* 
+  padding-top: 48px;
+	padding-top:10px;
+ */
+	padding-top:65px;
+	padding-bottom:15px;
+padding-right:10px;
+	padding-left:10px;  
 }
+
 /* line 290, ../sass/styles.scss */
 #sidebar hr {
   width: 75%;
   margin-left: auto;
   margin-right: auto;
 }
+
 /* line 296, ../sass/styles.scss */
 #sidebar h2 {
 /* 
@@ -504,7 +533,7 @@ body > nav {
   padding: 10px 35px;
 }
 /* line 382, ../sass/styles.scss */
-#main.content .logos a {
+#main.content .logos  {
   text-indent: -5000px;
   background-repeat: no-repeat;
   background-position: center center;
@@ -575,18 +604,50 @@ body > nav {
   opacity: 1;
 }
 
-/* line 449, ../sass/styles.scss */
-#map {
-  height: 100%;
+.lead {
+  margin-bottom: 20px;
+  font-size: 21px;
+  font-weight: 200;
+  line-height: 30px;
 }
 
-/* line 453, ../sass/styles.scss */
+#map {
+	height: 700px;
+	width: 630px;
+  	margin: 0;
+	border: 1px solid #ccc;
+}
+
+#map_canvas {
+  width:100%;
+  height:100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: "hidden";
+}
+
 #table {
+	height: 700px;
+	width: 630px;
+  	margin: 0;
+	border: 1px solid #ccc;
+	white-space: nowrap;
+
+
+/* 
   overflow: hidden;
   height: 100%;
   width: 100%;
   position: relative;
+ */
 }
+
+.hr85 {
+  border: 0;
+  width: 85%;
+}
+
 
 @media print {
   /* line 461, ../sass/styles.scss */
@@ -594,11 +655,7 @@ body > nav {
     height: auto;
   }
 
-  /* line 465, ../sass/styles.scss */
-  #map {
-    height: 650px;
-  }
-}
+
 /* line 471, ../sass/styles.scss */
 body > header .logo a {
 /* 
@@ -608,8 +665,10 @@ body > header .logo a {
 /* 
 	color: #32cd32;
  */
+/* 
 	color: #89C13C;
-		
+ */
+	color: #000000;
   	font-size: 30px;
   	line-height: 48px;
   	font-weight: lighter;
@@ -780,15 +839,26 @@ a:hover {
 }
 
 /* line 623, ../sass/styles.scss */
+/* 
 .dataTables_wrapper table.display td {
   vertical-align: top;
   white-space: nowrap;
 }
+ */
+
 /* line 628, ../sass/styles.scss */
+/* 
 .dataTables_wrapper table.display th, .dataTables_wrapper table.display td {
   overflow: hidden;
   max-width: 250px;
 }
+ */
+
+/* 
+.dataTables_wrapper table thead {
+    display:none;
+}
+ */
 
 /* line 634, ../sass/styles.scss */
 .DataTables_sort_wrapper {
@@ -870,10 +940,12 @@ a:hover {
   right: 0;
 }
 
+/* 
 #infoWindow {
     width: 450px;
-  	height: 300px;
+  	height: 350px;
 }
+ */
 
 .bubble-es {
 	color: #000000;

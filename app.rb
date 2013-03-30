@@ -19,17 +19,28 @@ FusionTables::Connection::URL = URI.parse("http://tables.googlelabs.com/api/quer
 # Google Fusion tables keys.
 TABLES = {
 	:barrios => '1_fEVSZmIaCJzDQoOgTY7pIcjBLng1MFOoeeTtYY'.to_sym,
-  	#:barrios => '1ePInQ8wuWBsfXcXczd0j3bp7qFFw2v-tXn_g_Rw'.to_sym,
   	:es      => '1srzoUc6ovddAOlLSYRRxZdF41Z6nLwxYnFFF7rM'.to_sym,
+  	:hospitales	=> '1srzoUc6ovddAOlLSYRRxZdF41Z6nLwxYnFFF7rM'.to_sym,
+  	:cesacs	=> '1srzoUc6ovddAOlLSYRRxZdF41Z6nLwxYnFFF7rM'.to_sym,
 }
 
 # Respuestas de los formularios (google spreadsheet keys).
 RESPUESTAS = {
+	# Embarazo y controles prenatales
 	:embarazo => "0AphQI4-3PsVcdEtDdi1oRHVzREwtVS1fZEx1c19GTUE",
+	# Internación durante el embarazo
+	:internacion_durante => "0Asjo1LSXGKxCdDY4VFVjalBOd1owQTd1a1FwcVh4TUE",	
+	# Parto
 	:parto => "0Asjo1LSXGKxCdFhZUlE4cUpLQWItR3lMMnIyNTQ5MFE",
-	:complicaciones => "0Asjo1LSXGKxCdDY4VFVjalBOd1owQTd1a1FwcVh4TUE",
-	:menores_de_20_anos => "0AphQI4-3PsVcdGhPX0RMTVJYcy1obGFvZ3I5VGVlOGc"
+	# Internación después del parto o durante el puerperio
+	:internacion_despues => "0AphQI4-3PsVcdEFWcXJkTlE0MVNDUG01bXE0enBmSWc",	
+	# Menores de 20 años, sin embarazo aún
+	:menores => "0AphQI4-3PsVcdGhPX0RMTVJYcy1obGFvZ3I5VGVlOGc"
 }
+
+#	https://docs.google.com/spreadsheet/pub?key=0AphQI4-3PsVcdEFWcXJkTlE0MVNDUG01bXE0enBmSWc&output=html
+
+#0Asjo1LSXGKxCdDY4VFVjalBOd1owQTd1a1FwcVh4TUE
 
 Barrios = DB[TABLES[:barrios]]
 EstablecimientosDeSalud = DB[TABLES[:es]]
@@ -89,72 +100,90 @@ class SMA < Sinatra::Base
 # 	####################################################
 	https_docs_google_spreadsheet = "https://docs.google.com/spreadsheet/"
 
+	# generate URLs 
 	url_embarazo = https_docs_google_spreadsheet + "pub?key=" + RESPUESTAS[:embarazo] + "&output=html"
+	url_internacion_durante = https_docs_google_spreadsheet + "pub?key=" + RESPUESTAS[:internacion_durante] + "&output=html"
 	url_parto = https_docs_google_spreadsheet + "pub?key=" + RESPUESTAS[:parto] + "&output=html"
-	url_complicaciones = https_docs_google_spreadsheet + "pub?key=" + RESPUESTAS[:complicaciones] + "&output=html"
-	url_menores_de_20_anos = https_docs_google_spreadsheet + "pub?key=" + RESPUESTAS[:menores_de_20_anos] + "&output=html"
+	url_internacion_despues = https_docs_google_spreadsheet + "pub?key=" + RESPUESTAS[:internacion_despues] + "&output=html"
+	url_menores = https_docs_google_spreadsheet + "pub?key=" + RESPUESTAS[:menores] + "&output=html"
 
 	# Read content of html pages. 
     doc_embarazo = open(url_embarazo)
+	doc_internacion_durante = open(url_internacion_durante) 
     doc_parto = open(url_parto)
-	doc_complicaciones = open(url_complicaciones) 
-	doc_menores_de_20_anos = open(url_menores_de_20_anos)
+	doc_internacion_despues = open(url_internacion_despues) 
+	doc_menores = open(url_menores)
 	
 	# Parse html content.
     @html_content_embarazo = Nokogiri::HTML(doc_embarazo)
+    @html_content_internacion_durante = Nokogiri::HTML(doc_internacion_durante)
     @html_content_parto = Nokogiri::HTML(doc_parto)
-    @html_content_complicaciones = Nokogiri::HTML(doc_complicaciones)
-    @html_content_menores_de_20_anos = Nokogiri::HTML(doc_menores_de_20_anos)
+    @html_content_internacion_despues = Nokogiri::HTML(doc_internacion_despues)
+    @html_content_menores = Nokogiri::HTML(doc_menores)
 
 	# Titles
 	@title_embarazo = @html_content_embarazo.xpath('//html/head/title').text
+	@title_internacion_durante = @html_content_internacion_durante.xpath('//html/head/title').text
 	@title_parto = @html_content_parto.xpath('//html/head/title').text
-	@title_complicaciones = @html_content_complicaciones.xpath('//html/head/title').text
-	@title_menores_de_20_anos = @html_content_menores_de_20_anos.xpath('//html/head/title').text
+	@title_internacion_despues = @html_content_internacion_despues.xpath('//html/head/title').text
+	@title_menores = @html_content_menores.xpath('//html/head/title').text
+
+	TOTAL_LOOKUP = 'td[@class = "s0"]'
 
 	# Evaluate total rows for every table.
  	@total_embarazo = 0
-	extract = @html_content_embarazo.xpath("//table[@id='tblMain']")
-	extract.search('tr').each do |element|
+ 	@html_content_embarazo.css(TOTAL_LOOKUP).each do |element|
    		@total_embarazo += 1
 	end	
-# 	@total_embarazo -= 1 # Subtract table header row.
-# 	@total_embarazo = 0 if @total_embarazo < 0
+	@total_embarazo = 0 if @total_embarazo < 0
+	puts @total_embarazo
+
+ 	@total_internacion_durante = 0
+ 	@html_content_internacion_durante.css(TOTAL_LOOKUP).each do |element|
+   		@total_internacion_durante += 1
+	end
+	@total_internacion_durante = 0 if @total_internacion_durante < 0
+	puts @total_internacion_durante
 
  	@total_parto = 0
- 	table_rows = @html_content_parto.css('table#tblMain').each do |element|
-   		@total_parto += 1 if element.xpath("/tr")
+ 	@html_content_parto.css(TOTAL_LOOKUP).each do |element|
+   		@total_parto += 1
 	end
 	@total_parto = 0 if @total_parto < 0
+	puts @total_parto
 
- 	@total_complicaciones = 0
- 	table_rows = @html_content_complicaciones.css('table#tblMain').each do |element|
-   		@total_complicaciones += 1 if element.xpath("/tr")
+ 	@total_internacion_despues = 0
+ 	@html_content_internacion_despues.css(TOTAL_LOOKUP).each do |element|
+   		@total_internacion_despues += 1
 	end
-	@total_complicaciones = 0 if @total_complicaciones < 0
+	@total_internacion_despues = 0 if @total_internacion_despues < 0
+	puts @total_internacion_despues
 
- 	@total_menores_de_20_anos = 0
-# 	@html_content_menores_de_20_anos.css('table#tblMain') .each do |element|
-#	extract = @html_content_complicaciones.xpath("//table[@id='tblMain']")
-#	extract = @html_content_complicaciones.css("html body div#content table#tblMain.tblGenFixed")
- 	@html_content_menores_de_20_anos.search('table#tblMain', '/tr').each do |element|
-#	extract.search('tr').each do |element|
-   		@total_menores_de_20_anos += 1
+ 	@total_menores = 0
+ 	@html_content_menores.css(TOTAL_LOOKUP).each do |element|
+   		@total_menores += 1
 	end
+	@total_menores = 0 if @total_menores < 0
+	puts @total_menores
 	
-	
-#	@total_menores_de_20_anos -= 1 # Subtract table header row.
-#	@total_menores_de_20_anos = 0 if @total_menores_de_20_anos < 0
-	
+
 	# Evaluate total of all testimonios.
-	@total_testimonios = @total_embarazo + @total_parto + @total_complicaciones + @total_menores_de_20_anos
+	@total_testimonios = @total_embarazo + @total_internacion_durante + @total_parto + @total_internacion_despues + @total_menores
+	puts @total_testimonios
+
+	# Retrieve test for website output
+	@resp_menores = Array.new
+ 	@html_content_menores.xpath('//td').each do |element|
+		@resp_menores.push element.text if not element.text.empty?
+	end
 
 # 	####################################################
 
   end
 
   get "/" do
-    erb(:"index")
+#    erb(:"index")
+    erb(:"index_bootstrap")
   end
 
   get "/contenido/:page" do |page|
