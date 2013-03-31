@@ -201,7 +201,17 @@ function initializeMap() {
         		strokeOpacity: 0.5,       // Opacidad del margen
         		strokeWeight: 1           // Grosor del margen
       		}
-    	}],
+    	},
+    	{
+    		where: "'NOMBRE DEL BARRIO' = 'Lujan \"Villa Lujan\"'",
+    		polygonOptions: {
+      			fillColor: "#ffa500",
+        		fillOpacity: 3,         // Opacidad del plano
+        		strokeOpacity: 1,       // Opacidad del margen
+        		strokeWeight: 2           // Grosor del margen
+    		} 
+    	}
+    	],
        	map: map,
 		suppressInfoWindows: true
     });
@@ -479,9 +489,11 @@ function onBarriosDataFetched(data) {
 //	barrios_entities = createEntities('barrios', barrios_cols, barrios_rows);
 }
 
+
 function onHospitalesDataFetched(data) {
 	hospitales_cols = data.table.cols;
-	var cols = COLUMNS['es'];
+	var cols = data.table.cols;
+//	var cols = COLUMNS['es'];
 	hospitales_rows = data.table.rows;
 
 	var hospitalesTable = $('#hospitales_table').dataTable( {
@@ -493,8 +505,37 @@ function onHospitalesDataFetched(data) {
     	bProcessing: true,
     	bDeferRender: true,
     	sPaginationType: "full_numbers",
-      	aoColumnsDefs: cols,
-      	aoColumns: hospitales_cols,
+      // Table columns
+      "aoColumnDefs": [
+        { "bVisible": true, "sTitle": cols[0], "aTargets": [0] },
+        { "bVisible": true, "sTitle": cols[1], "aTargets": [1] },
+        { "bVisible": true, "sTitle": cols[2], "aTargets": [2] },
+        { "bVisible": true, "sTitle": cols[3], "aTargets": [3] },
+        { "bVisible": true, "sTitle": cols[4], "aTargets": [4] },
+        { "bVisible": true, "sTitle": cols[5], "aTargets": [5] },
+        { "bVisible": true, "sTitle": cols[6], "aTargets": [6] },
+        { "bVisible": true, "sTitle": cols[7], "aTargets": [7] },
+        { "bVisible": true, "sTitle": cols[8], "aTargets": [8] },
+        { "bVisible": true, "sTitle": cols[9], "aTargets": [9] },
+        { "bVisible": true, "sTitle": cols[10], "aTargets": [10] },
+        { "bVisible": true, "sTitle": cols[11], "aTargets": [11] },
+        { "bVisible": true, "sTitle": cols[12], "aTargets": [12] },
+        { "bVisible": true, "sTitle": cols[13], "aTargets": [13] },
+        { "bVisible": true, "sTitle": cols[14], "aTargets": [14] },
+        { "bVisible": true, "sTitle": cols[15], "aTargets": [15] },
+        { "bVisible": true, "sTitle": cols[16], "aTargets": [16] },
+        { "bVisible": true, "sTitle": cols[17], "aTargets": [17] },
+        { "bVisible": true, "sTitle": cols[18], "aTargets": [18] },
+        { "bVisible": true, "sTitle": cols[19], "aTargets": [19] },
+        { "bVisible": true, "sTitle": cols[20], "aTargets": [20] },
+        { "bVisible": true, "sTitle": cols[21], "aTargets": [21] },
+        { "bVisible": false, "sTitle": cols[22], "aTargets": [22] },
+        { "bVisible": false, "sTitle": cols[23], "aTargets": [23] },
+        { "bVisible": false, "sTitle": cols[24], "aTargets": [24] },
+        { "bVisible": true, "sTitle": cols[25], "aTargets": [25] },
+        { "bVisible": true, "sTitle": cols[26], "aTargets": [26] },
+        { "bVisible": true, "sTitle": cols[26], "aTargets": [27] }
+      ],
       	aaData: hospitales_rows,
       	aLengthMenu: [[25, 50], [25, 50]],
       	iDisplayLength: 25,
@@ -515,7 +556,7 @@ function onHospitalesDataFetched(data) {
           		'sNext':     'Siguiente',
           		'sLast':     'Último'
         	}
-      	}
+      	}      	
     });
 
     // Create entities.
@@ -524,9 +565,11 @@ function onHospitalesDataFetched(data) {
 //    createMarker(hospitales_entities, 'hospitales');
 }
 
+
 function onCesacsDataFetched(data) {
 	cesacs_cols = data.table.cols;
-	var cols = COLUMNS['es'];
+	var cols = data.table.cols;
+//	var cols = COLUMNS['es'];
 	cesacs_rows = data.table.rows;
 
 	var cesacsTable = $('#cesacs_table').dataTable( {
@@ -538,8 +581,37 @@ function onCesacsDataFetched(data) {
     	bProcessing: true,
     	bDeferRender: true,
     	sPaginationType: "full_numbers",
-      	aoColumnsDefs: cols,
-      	aoColumns: cesacs_cols,
+      // Table columns
+      "aoColumnDefs": [
+        { "bVisible": true, "sTitle": cols[0], "aTargets": [0] },
+        { "bVisible": true, "sTitle": cols[1], "aTargets": [1] },
+        { "bVisible": true, "sTitle": cols[2], "aTargets": [2] },
+        { "bVisible": true, "sTitle": cols[3], "aTargets": [3] },
+        { "bVisible": true, "sTitle": cols[4], "aTargets": [4] },
+        { "bVisible": true, "sTitle": cols[5], "aTargets": [5] },
+        { "bVisible": true, "sTitle": cols[6], "aTargets": [6] },
+        { "bVisible": true, "sTitle": cols[7], "aTargets": [7] },
+        { "bVisible": true, "sTitle": cols[8], "aTargets": [8] },
+        { "bVisible": true, "sTitle": cols[9], "aTargets": [9] },
+        { "bVisible": true, "sTitle": cols[10], "aTargets": [10] },
+        { "bVisible": true, "sTitle": cols[11], "aTargets": [11] },
+        { "bVisible": true, "sTitle": cols[12], "aTargets": [12] },
+        { "bVisible": true, "sTitle": cols[13], "aTargets": [13] },
+        { "bVisible": true, "sTitle": cols[14], "aTargets": [14] },
+        { "bVisible": true, "sTitle": cols[15], "aTargets": [15] },
+        { "bVisible": true, "sTitle": cols[16], "aTargets": [16] },
+        { "bVisible": true, "sTitle": cols[17], "aTargets": [17] },
+        { "bVisible": true, "sTitle": cols[18], "aTargets": [18] },
+        { "bVisible": true, "sTitle": cols[19], "aTargets": [19] },
+        { "bVisible": true, "sTitle": cols[20], "aTargets": [20] },
+        { "bVisible": true, "sTitle": cols[21], "aTargets": [21] },
+        { "bVisible": false, "sTitle": cols[22], "aTargets": [22] },
+        { "bVisible": false, "sTitle": cols[23], "aTargets": [23] },
+        { "bVisible": false, "sTitle": cols[24], "aTargets": [24] },
+        { "bVisible": true, "sTitle": cols[25], "aTargets": [25] },
+        { "bVisible": true, "sTitle": cols[26], "aTargets": [26] },
+        { "bVisible": true, "sTitle": cols[26], "aTargets": [27] }
+      ],
       	aaData: cesacs_rows,
       	aLengthMenu: [[25, 50], [25, 50]],
       	iDisplayLength: 25,
@@ -562,7 +634,7 @@ function onCesacsDataFetched(data) {
         	}
       	}
     });
-    
+
     // Create entities.
     cesacs_entities = createEntities('cesacs', cesacs_cols, cesacs_rows);
     // Init setting of all markers.
@@ -737,24 +809,40 @@ function showTable(table) {
 			$('#table_hospitales').show();
 			$('#table_cesacs').hide();
 			$('#table_barrios').hide();
+
+    		// Workaround for actualizing column widths (same as row data).
+    		$('#hospitales_table_next').click();
+ 			$('#hospitales_table_previous').click();
 		break;
 		
 		case "cesacs_table":
 			$('#table_cesacs').show();
 			$('#table_hospitales').hide();
 			$('#table_barrios').hide();
+
+    		// Workaround for actualizing column widths (same as row data).
+    		$('#cesacs_table_next').click();
+ 			$('#cesacs_table_previous').click();
 		break;
 		
 		case "barrios_table":
 			$('#table_barrios').show();
 			$('#table_hospitales').hide();
 			$('#table_cesacs').hide();
+
+    		// Workaround for actualizing column widths (same as row data).
+    		$('#barrios_table_next').click();
+ 			$('#barrios_table_previous').click();
 		break;
 
 		default:
 			$('#table_hospitales').show();
 			$('#table_cesacs').hide();
 			$('#table_barrios').hide();
+
+    		// Workaround for actualizing column widths (same as row data).
+    		$('#hospitales_table_next').click();
+ 			$('#hospitales_table_previous').click();
 	}		
 					
 	return false;
@@ -901,7 +989,7 @@ function showTable(table) {
 	$('#form_menores').hide();
 
 	$('#request_menores').hide();
-	
+
     //$('#table').show();
     SMA.view = 'table';
     showViewType(SMA.view);
@@ -910,6 +998,6 @@ function showTable(table) {
   });
 
 $(document).ready(function() {
-	console.log("Document ready...");
+//	console.log("document ready()...");
 	
 });

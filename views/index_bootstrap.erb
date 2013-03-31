@@ -3,9 +3,10 @@
   	<div class="row">
       	<!-- Navigaton content -->
     	<div class="span4" id='navigation'>
-		<h4>¿Qué estás viendo?</h4>
-			
-			<!-- Map data views -->
+			<h4>¿Qué estás viendo?</h4>			
+			<!-- ==================================================================== -->
+			<!-- Map views -->
+			<!-- ==================================================================== -->
 			<div id='map_views'>
 				<ul class="unstyled" id="map_data_views">
 					<li> 
@@ -36,9 +37,10 @@
 						</label>
 					</li>
 				</ul>
-			</div>
-			
-			<!-- Table data views -->
+			</div>			
+			<!-- ==================================================================== -->
+			<!-- Table views -->
+			<!-- ==================================================================== -->
 			<div id='table_views' style="display:none;">
 				<ul class="unstyled" id="table_data_views">
 					<li> 
@@ -71,8 +73,9 @@
 					</li>
 				</ul>			
 			</div>
-
-			<!-- Form data views -->
+			<!-- ==================================================================== -->
+			<!-- Form views -->
+			<!-- ==================================================================== -->
 			<div id='form_views' style="display:none;">
 				<ul class="unstyled" id="form_data_views">
 					<li> 
@@ -82,7 +85,9 @@
 					</li>
 				</ul>
 			</div>
-
+			<!-- ==================================================================== -->
+			<!-- Request views -->
+			<!-- ==================================================================== -->
 			<!-- Request data views -->
 			<div id='request_views' style="display:none;">
 				<ul class="unstyled" id="request_data_views">
@@ -99,80 +104,89 @@
 
          </li> <!-- ?????????????? -->
 	   
-	<div class='view_selector'>
-    	<h4>¿Cómo lo estás viendo?</h4>
-		<span>&nbsp;&nbsp;&nbsp;</span>
-    	<span><i class="icon-globe"></i>&nbsp;<a href='#view=map'><strong>Mapa</strong></a></span>
-		<span>&nbsp;</span>
-    	<span><i class="icon-th-list"></i>&nbsp;<a href='#view=table'><strong>Tablas</strong></a></span>
+			<!-- ==================================================================== -->
+			<!-- Map and table switch -->
+			<!-- ==================================================================== -->
+			<div class='view_selector'>
+    		<h4>¿Cómo lo estás viendo?</h4>
+			<span>&nbsp;&nbsp;&nbsp;</span>
+    		<span><i class="icon-globe"></i>&nbsp;<a href='#view=map'><strong>Mapa</strong></a></span>
+			<span>&nbsp;</span>
+    		<span><i class="icon-th-list"></i>&nbsp;<a href='#view=table'><strong>Tablas</strong></a></span>
 
-		<hr class="hr85">
+			<hr class="hr85">
 
-    	<h4>Completar testimonio.....</h4>
-    	<!-- Rellenar formularios -->
-		<ul class="unstyled">
-    		<!-- Embarazo y controles prenatales -->
-  			<li>
-  				<i class=" icon-edit"></i>
-  				<a href='#view=form_embarazo'>Embarazo y controles prenatales</a>
-  			</li>
-			<!-- Internación durante el embarazo -->
-  			<li>
-  				<i class=" icon-edit"></i>
-  				<a href='#view=form_internacion_durante'>Internación durante el embarazo</a>
-  			</li>
-			<!-- Parto -->
-  			<li>
-  				<i class=" icon-edit"></i>
-  				<a href='#view=form_parto'>Parto</a>
-  			</li>
-			<!-- Internación después del parto o durante el puerperio -->
-  			<li>
-  				<i class=" icon-edit"></i>
-  				<a href='#view=form_internacion_despues'>Internación después del parto o durante el puerperio</a>
-  			</li>
-			<!-- Menores de 20 años, sin embarazo aún -->
-  			<li>
-  				<i class=" icon-edit"></i>
-  				<a href='#view=form_menores'>Menores de 20 años, sin embarazo aún</a>
-  			</li>
-		</ul>
-
-    	<!-- Rellenar formularios -->
-		<h4>Leer <%= number_with_delimeter(@total_testimonios.to_i) %> testimonios</h4>
-		<ul class="unstyled">
-    		<!-- Embarazo y controles prenatales -->
-  			<li>
-  				<i class=" icon-eye-open"></i>
-				<%= number_with_delimeter(@total_embarazo.to_i) %>&nbsp;
-				Embarazo y controles prenatales
-  			</li>
-			<!-- Internación durante el embarazo -->
-  			<li>
-  				<i class=" icon-eye-open"></i>
-				<%= number_with_delimeter(@total_internacion_durante.to_i) %>&nbsp;
-				Internación durante el embarazo
-  			</li>
-			<!-- Parto -->
-  			<li>
-  				<i class=" icon-eye-open"></i>
-				<%= number_with_delimeter(@total_parto.to_i) %>&nbsp;
-				Parto
-  			</li>
-			<!-- Internación después del parto o durante el puerperio -->
-  			<li>
-  				<i class=" icon-eye-open"></i>
-				<%= number_with_delimeter(@total_internacion_despues.to_i) %>&nbsp;
-				Internación después del parto o durante el puerperio
-  			</li>
-			<!-- Menores de 20 años, sin embarazo aún -->
-  			<li>
-  				<i class=" icon-eye-open"></i>
-				<%= number_with_delimeter(@total_menores.to_i) %>&nbsp;
-				<a href="#view=request_menores">Menores de 20 años, sin embarazo aún</a>
-  			</li>
-		</ul>
-   	</div>
+			<!-- ==================================================================== -->
+			<!-- Edit form data -->
+			<!-- ==================================================================== -->
+    		<!-- Rellenar formularios -->
+    		<h4>Completar testimonio.....</h4>
+			<ul class="unstyled">
+    			<!-- Embarazo y controles prenatales -->
+  				<li>
+  					<i class=" icon-edit"></i>
+  					<a href='#view=form_embarazo'>Embarazo y controles prenatales</a>
+  				</li>
+				<!-- Internación durante el embarazo -->
+  				<li>
+  					<i class=" icon-edit"></i>
+  					<a href='#view=form_internacion_durante'>Internación durante el embarazo</a>
+  				</li>
+				<!-- Parto -->
+  				<li>
+  					<i class=" icon-edit"></i>
+  					<a href='#view=form_parto'>Parto</a>
+  				</li>
+				<!-- Internación después del parto o durante el puerperio -->
+  				<li>
+  					<i class=" icon-edit"></i>
+  					<a href='#view=form_internacion_despues'>Internación después del parto o durante el puerperio</a>
+  				</li>
+				<!-- Menores de 20 años, sin embarazo aún -->
+  				<li>
+  					<i class=" icon-edit"></i>
+  					<a href='#view=form_menores'>Menores de 20 años, sin embarazo aún</a>
+  				</li>
+			</ul>
+			<!-- ==================================================================== -->
+			<!-- View form data -->
+			<!-- ==================================================================== -->
+    		<!-- Leer las respuestas de los formularios -->
+			<h4>Leer <%= number_with_delimeter(@total_testimonios.to_i) %> testimonios</h4>
+			<ul class="unstyled">
+    			<!-- Embarazo y controles prenatales -->
+  				<li>
+  					<i class=" icon-eye-open"></i>
+					<%= number_with_delimeter(@total_embarazo.to_i) %>&nbsp;
+					Embarazo y controles prenatales
+  				</li>
+					<!-- Internación durante el embarazo -->
+  				<li>
+  					<i class=" icon-eye-open"></i>
+					<%= number_with_delimeter(@total_internacion_durante.to_i) %>&nbsp;
+					Internación durante el embarazo
+  				</li>
+				<!-- Parto -->
+  				<li>
+  					<i class=" icon-eye-open"></i>
+					<%= number_with_delimeter(@total_parto.to_i) %>&nbsp;
+					Parto
+  				</li>
+				<!-- Internación después del parto o durante el puerperio -->
+  				<li>
+  					<i class=" icon-eye-open"></i>
+					<%= number_with_delimeter(@total_internacion_despues.to_i) %>&nbsp;
+					Internación después del parto o durante el puerperio
+  				</li>
+				<!-- Menores de 20 años, sin embarazo aún -->
+  				<li>
+  					<i class=" icon-eye-open"></i>
+					<%= number_with_delimeter(@total_menores.to_i) %>&nbsp;
+<!-- 				<a href="#view=request_menores"> -->
+					Menores de 20 años, sin embarazo aún</a>
+  				</li>
+			</ul>
+   		</div>
 		
 				
     	<!-- Rellenar formularios -->
@@ -219,21 +233,16 @@
 <!-- </div> -->
 
 
-
-
 		</div> <!-- end Navigation content -->
       	
       	<!-- Body content -->
+		<!-- ==================================================================== -->
+		<!-- Map -->
+		<!-- ==================================================================== -->
     	<div class="span8" id="map"></div>
-
-<!-- 
-    	<div class="span8" id="table" style='display:none;'>
-     		<table class="dataTable show_hide" id='hospitales_table'></table>
-     		<table class="dataTable show_hide" id='cesacs_table'></table>
-     		<table class="dataTable show_hide" id='barrios_table'></table>     		
-  		</div>
- -->
-
+		<!-- ==================================================================== -->
+		<!-- Tables -->
+		<!-- ==================================================================== -->
     	<div class="span8" id="table_hospitales">
      		<table class="dataTable" id='hospitales_table'></table>
   		</div>
@@ -245,7 +254,9 @@
     	<div class="span8" id="table_barrios">
      		<table class="dataTable" id='barrios_table'></table>     		
   		</div>
-
+		<!-- ==================================================================== -->
+		<!-- Forms -->
+		<!-- ==================================================================== -->
   		<div class="span8" id="form_embarazo">
 			<iframe 
 				width='630px'
@@ -295,7 +306,9 @@
 				Cargando...
 			</iframe>
   		</div>
-
+		<!-- ==================================================================== -->
+		<!-- Requests -->
+		<!-- ==================================================================== -->
     	<div class="span8" id="request_menores">
     		<h4>Menores de 20 años, sin embarazo aún</h4>
         	<div class="accordion" id="accordion2">
@@ -319,14 +332,11 @@
 				<li><%#= elem %></li>
 			<%# end %>
  -->
-  		</p>
  		</div>
-
 
 	</div> <!-- end class="row" -->
 </div> <!-- end class="container" -->
 
 <script>
 	window.onload = function() { initializeMap(); };
-//	google.maps.event.addDomListener(window, 'load', initializeMap);
 </script>
