@@ -467,22 +467,6 @@ background: image-url("logo_farn.png");
   }
 }
 
-#lujan_info_container {
-  width: 550px;
-  background: rgba(220,220,220,0.8);
-  top: 60px;
-  left: 408px;
-  z-index: 1100;
-  position: absolute;
-  color: black;
-  padding: 10px;
-  border-radius: 10px;
-  -moz-border-radius: 10px;
-  -o-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -ms-border-radius: 10px;
-}
-
 body > header {
   .logo {
     @include text-shadow;

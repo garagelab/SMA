@@ -2,8 +2,8 @@
  Project:	Salud Materna en Avellaneda
 	
 			Between February and April 2013
-			Coding modified and many parts new written for this project
-			by Andreas Hempfling <andreas.hempfling@gmail.com>
+			Coding modified from a template and many parts new written for 
+			this project by Andreas Hempfling <andreas.hempfling@gmail.com>
 */
 
 /////////////////////////////////////////////////////////////////////
@@ -230,6 +230,69 @@ function initializeMap() {
   	});
 
   	barrio_de_avellaneda.setMap(map);
+
+
+
+	// About box Villa Lujan...
+	var marker = new google.maps.Marker({
+		map: map,
+		draggable: true,
+		// A point in Rio de La Plata.
+		position: new google.maps.LatLng(-34.635404,-58.30238),
+		visible: true
+	});
+
+	var boxText = document.createElement("div");
+	boxText.style.cssText = "border: 1px solid gray; margin-top: 8px; background: white; padding: 5px;";
+	boxText.innerHTML = 
+		'<strong>Villa Lujan 2012</strong>'+
+		'<br />'+
+		'<ul style="font-size:85%;">'+
+		'<li>'+
+		'En el año 2012 126 mujeres realizaron su primer control prenatal en la US 11 de Villa Luján, Avellaneda'+
+		'</li>'+
+		'<li>'+
+		'Su edad promedio era de 23 años.'+
+		'<br />'+
+		'34 mujeres (27% de ellas) tenían 20 años o menos. Casi la mitad ya había tenido un embarazo anterior. las 24 '+
+		'</li>'+
+		'<li>'+
+		'34%, hicieron  su primer control antes de las 12 semanas'+
+		'<br />'+
+		'14%, hicieron su primer control después de las 24 semanas.'+
+		'</li>'+
+		'<li>'+
+		'32,5%, habían tenido al menos un aborto.'+
+		'</li>'+
+		'</ul>';
+
+	var boxOptions = {
+		content: boxText,
+		disableAutoPan: false,
+		maxWidth: 0,
+		pixelOffset: new google.maps.Size(-140, 0),
+		zIndex: null,
+		boxStyle: { 
+//			background: "url('/images/tipbox.gif') no-repeat",
+			opacity: 0.75,
+			width: "220px"
+		},
+		closeBoxMargin: "10px 2px 2px 2px",
+		closeBoxURL: "/images/close.gif",
+		infoBoxClearance: new google.maps.Size(1, 1),
+		isHidden: false,
+		pane: "floatPane",
+		enableEventPropagation: false
+	};
+
+	google.maps.event.addListener(marker, "click", function (e) {
+		ib.open(map, this);
+	});
+
+	var ib = new InfoBox(boxOptions);
+	ib.open(map, marker);
+	marker.setMap(null);
+
 
     google.maps.event.addDomListener(document.getElementById('barrios_map'),
         'click', function() {
@@ -489,7 +552,6 @@ function onBarriosDataFetched(data) {
 //	barrios_entities = createEntities('barrios', barrios_cols, barrios_rows);
 }
 
-
 function onHospitalesDataFetched(data) {
 	hospitales_cols = data.table.cols;
 	var cols = data.table.cols;
@@ -564,7 +626,6 @@ function onHospitalesDataFetched(data) {
     // Init setting of all markers.
 //    createMarker(hospitales_entities, 'hospitales');
 }
-
 
 function onCesacsDataFetched(data) {
 	cesacs_cols = data.table.cols;
@@ -795,8 +856,7 @@ function showViewType(view_type) {
 		document.getElementById("form_views").style.display = "none";
 		document.getElementById("table_views").style.display = "none";
 		document.getElementById("map_views").style.display = "none";
-	}
-	
+	}	
 }
 
 /////////////////////////////////////////////////////////////////////
