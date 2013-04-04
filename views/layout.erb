@@ -82,7 +82,10 @@
 		<!-- Individual content -->
 		<%= yield %>
 
+		<!-- Attention: Do not change the order of the javascript libraries!!! -->
+		<!-- ¡Atención!: No cambiar el orden de las javascript bibliotecas!!! -->
     	<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js'></script>
+    	<script type='text/javascript' src="/bootstrap/js/jquery.js"></script>
 
     	<script>
       		var $navigation = $('#navigation');
@@ -111,6 +114,8 @@
     	<!-- Bootstrap javascript library -->
     	<script type='text/javascript' src="/bootstrap/js/bootstrap.min.js"></script>
     	<script type='text/javascript' src="/bootstrap/js/bootstrap-tab.js"></script>
+    	<script type='text/javascript' src="/bootstrap/js/bootstrap-transition.js"></script>
+    	<script type='text/javascript' src="/bootstrap/js/bootstrap-collapse.js"></script>
 
     	<script>
 //       		<% TABLES.each do |name, source| %>

@@ -152,86 +152,46 @@
 			<!-- View form data -->
 			<!-- ==================================================================== -->
     		<!-- Leer las respuestas de los formularios -->
-			<h4>Leer <%= number_with_delimeter(@total_testimonios.to_i) %> testimonios</h4>
+				<% tot_responses = (@tot_responses_embarazo.to_i + 
+									@tot_responses_internacion_durante.to_i + 	
+									@tot_responses_parto.to_i + 
+									@tot_responses_internacion_despues.to_i + 
+									@tot_responses_menores.to_i)
+				%>
+			<h4>Leer <%= number_with_delimeter(tot_responses.to_i) %> testimonios</h4>
 			<ul class="unstyled">
     			<!-- Embarazo y controles prenatales -->
   				<li>
   					<i class=" icon-eye-open"></i>
-					<%= number_with_delimeter(@total_embarazo.to_i) %>&nbsp;
-					Embarazo y controles prenatales
+					<%= number_with_delimeter(@tot_responses_embarazo.to_i) %>&nbsp;
+					<a href="#view=requests_embarazo">Embarazo y controles prenatales</a>
   				</li>
-					<!-- Internación durante el embarazo -->
+				<!-- Internación durante el embarazo -->
   				<li>
   					<i class=" icon-eye-open"></i>
-					<%= number_with_delimeter(@total_internacion_durante.to_i) %>&nbsp;
-					Internación durante el embarazo
+					<%= number_with_delimeter(@tot_responses_internacion_durante.to_i) %>&nbsp;
+					<a href="#view=requests_internacion_durante">Internación durante el embarazo</a>
   				</li>
 				<!-- Parto -->
   				<li>
   					<i class=" icon-eye-open"></i>
-					<%= number_with_delimeter(@total_parto.to_i) %>&nbsp;
-					Parto
+					<%= number_with_delimeter(@tot_responses_parto.to_i) %>&nbsp;
+					<a href="#view=requests_parto">Parto</a>
   				</li>
 				<!-- Internación después del parto o durante el puerperio -->
   				<li>
   					<i class=" icon-eye-open"></i>
-					<%= number_with_delimeter(@total_internacion_despues.to_i) %>&nbsp;
-					Internación después del parto o durante el puerperio
+					<%= number_with_delimeter(@tot_responses_internacion_despues.to_i) %>&nbsp;
+					<a href="#view=requests_internacion_despues">Internación después del parto o durante el puerperio</a>
   				</li>
 				<!-- Menores de 20 años, sin embarazo aún -->
   				<li>
   					<i class=" icon-eye-open"></i>
-					<%= number_with_delimeter(@total_menores.to_i) %>&nbsp;
-<!-- 				<a href="#view=request_menores"> -->
-					Menores de 20 años, sin embarazo aún</a>
+					<%= number_with_delimeter(@tot_responses_menores.to_i) %>&nbsp;
+					<a href="#view=requests_menores">Menores de 20 años, sin embarazo aún</a>
   				</li>
 			</ul>
    		</div>
-		
-				
-    	<!-- Rellenar formularios -->
-<!-- 
-		<h4>Leer testimonios</h4>
-		<ul class="unstyled">
-    		<!~~ Embarazo y controles prenatales ~~>
-  			<li>
-  				<i class=" icon-eye-open"></i>
-				<a href="https://docs.google.com/forms/d/1Zv6BEPLkPnZsuBDUcKLE1GNzPZZu9PxRWT8uhk05biI/viewform" target="_blank">
-    			Embarazo y controles prenatales
-    			</a>
-  			</li>
-			<!~~ Internación durante el embarazo ~~>
-  			<li>
-  				<i class=" icon-eye-open"></i>
-				<a href="https://docs.google.com/forms/d/1ZVMo1vgdWb5gwNj5wWIcMxFBoBDdc4PBsU3880sdj_Y/viewform" target="_blank">
-    			Internación durante el embarazo
-    			</a>
-  			</li>
-			<!~~ Parto ~~>
-  			<li>
-  				<i class=" icon-eye-open"></i>
-				<a href="https://docs.google.com/forms/d/1PVa4NYs7_Hpmtd73g0ID2GKL7NCJyUk32iEFHMMIqF8/viewform" target="_blank">
-    			Parto
-    			</a>
-  			</li>
-			<!~~ Internación después del parto o durante el puerperio ~~>
-  			<li>
-  				<i class=" icon-eye-open"></i>
-				<a href="https://docs.google.com/forms/d/1U5VqckUZSsHTS4yO_cREOCJ-smmSz6EAYMKIg5y-G1E/viewform" target="_blank">
-    			Internación después del parto o durante el puerperio
-    			</a>
-  			</li>
-			<!~~ Menores de 20 años, sin embarazo aún ~~>
-  			<li>
-  				<i class=" icon-eye-open"></i>
-				<a href="https://docs.google.com/forms/d/1r2XT3QOReibh5qpwAYmBQegndpzTfr3Huw6twDcWoIU/viewform" target="_blank">
-    			Menores de 20 años, sin embarazo aún
-    			</a>
-  			</li>
-		</ul>
- -->
-<!-- </div> -->
-
 
 		</div> <!-- end Navigation content -->
       	
@@ -309,29 +269,189 @@
 		<!-- ==================================================================== -->
 		<!-- Requests -->
 		<!-- ==================================================================== -->
-    	<div class="span8" id="request_menores">
-    		<h4>Menores de 20 años, sin embarazo aún</h4>
-        	<div class="accordion" id="accordion2">
+    	<div class="span8" id="requests_embarazo">
+    		<h4>Embarazo y controles prenatales</h4>
+
+        	<div class="accordion" id="accordion_requests_embarazo">
+        		<% line_no = 0 %>
+        		<% @responses_embarazo.each do |elem| %>
+        		<% coll_obj = "collapse_embarazo" + line_no.to_s %>
             	<div class="accordion-group">
-                	<div class="accordion-heading">
-                    	<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                      		<%= @resp_menores[28] %>
+            		<div class="accordion-heading">
+                    	<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#<%=coll_obj%>">
+							<!-- Apodo -->
+                    		<%=elem[1][1]%>&nbsp;&nbsp;<%=elem[1][2]%>
                     	</a>
-                  	</div>
-                	<div id="collapseOne" class="accordion-body collapse in">
-                    	<div class="accordion-inner">
-							<% @resp_menores.each do |elem| %>
-								<%= elem %><br />
-							<% end %>
-                    	</div>
-                  	</div>
+            		</div>
+					<div id="<%=coll_obj%>" class="accordion-body collapse">
+						<div class="accordion-inner">
+							<% @requests_embarazo.each do |key, value| %>
+								<%=key + 1%>.&nbsp;<strong><%=value%></strong><br>
+								<% if elem[1].has_key?(key + 1) then %>
+									<% if !elem[1][key + 1].empty? && !elem[1][key + 1].nil? then %> 
+										<em><%=elem[1][key + 1]%></em><br>
+									<% else %>
+										&nbsp;---&nbsp;<br>
+									<% end %>									
+								<% else %>
+									&nbsp;---&nbsp;<br>
+								<% end %>
+								<br>
+                    		<% end %>							
+            			</div>
+            	    </div>
             	</div>
-			</div>
-<!-- 
-			<%# @resp_menores.each do |elem| %>
-				<li><%#= elem %></li>
-			<%# end %>
- -->
+				<% line_no += 1 %>
+				<% end %>				
+ 			</div>
+ 		</div>
+
+    	<div class="span8" id="requests_internacion_durante">
+    		<h4>Internación durante el embarazo</h4>
+
+        	<div class="accordion" id="accordion_requests_internacion_durante">
+        		<% line_no = 0 %>
+        		<% @responses_internacion_durante.each do |elem| %>
+        		<% coll_obj = "collapse_internacion_durante" + line_no.to_s %>
+            	<div class="accordion-group">
+            		<div class="accordion-heading">
+                    	<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#<%=coll_obj%>">
+							<!-- Apodo -->
+                    		<%=elem[1][1]%>&nbsp;&nbsp;<%=elem[1][2]%>
+                    	</a>
+            		</div>
+					<div id="<%=coll_obj%>" class="accordion-body collapse">
+						<div class="accordion-inner">
+							<% @requests_internacion_durante.each do |key, value| %>
+								<%=key + 1%>.&nbsp;<strong><%=value%></strong><br>
+								<% if elem[1].has_key?(key + 1) then %>
+									<% if !elem[1][key + 1].empty? && !elem[1][key + 1].nil? then %> 
+										<em><%=elem[1][key + 1]%></em><br>
+									<% else %>
+										&nbsp;---&nbsp;<br>
+									<% end %>									
+								<% else %>
+									&nbsp;---&nbsp;<br>
+								<% end %>
+								<br>
+                    		<% end %>							
+            			</div>
+            	    </div>
+            	</div>
+				<% line_no += 1 %>
+				<% end %>				
+ 			</div>
+ 		</div>
+
+    	<div class="span8" id="requests_parto">
+    		<h4>Parto</h4>
+
+        	<div class="accordion" id="accordion_requests_parto">
+        		<% line_no = 0 %>
+        		<% @responses_parto.each do |elem| %>
+        		<% coll_obj = "collapse_parto" + line_no.to_s %>
+            	<div class="accordion-group">
+            		<div class="accordion-heading">
+                    	<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#<%=coll_obj%>">
+							<!-- Apodo -->
+                    		<%=elem[1][1]%>&nbsp;&nbsp;<%=elem[1][34]%>
+                    	</a>
+            		</div>
+					<div id="<%=coll_obj%>" class="accordion-body collapse">
+						<div class="accordion-inner">
+							<% @requests_parto.each do |key, value| %>
+								<%=key + 1%>.&nbsp;<strong><%=value%></strong><br>
+								<% if elem[1].has_key?(key + 1) then %>
+									<% if !elem[1][key + 1].empty? && !elem[1][key + 1].nil? then %> 
+										<em><%=elem[1][key + 1]%></em><br>
+									<% else %>
+										&nbsp;---&nbsp;<br>
+									<% end %>									
+								<% else %>
+									&nbsp;---&nbsp;<br>
+								<% end %>
+								<br>
+                    		<% end %>							
+            			</div>
+            	    </div>
+            	</div>
+				<% line_no += 1 %>
+				<% end %>				
+ 			</div>
+ 		</div>
+
+    	<div class="span8" id="requests_internacion_despues">
+    		<h4>Internación después del parto o durante el puerperio</h4>
+
+        	<div class="accordion" id="accordion_requests_internacion_despues">
+        		<% line_no = 0 %>
+        		<% @responses_internacion_despues.each do |elem| %>
+        		<% coll_obj = "collapse_internacion_despues" + line_no.to_s %>
+            	<div class="accordion-group">
+            		<div class="accordion-heading">
+                    	<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion4" href="#<%=coll_obj%>">
+							<!-- Apodo -->
+                    		<%=elem[1][1]%>&nbsp;&nbsp;<%=elem[1][2]%>
+                    	</a>
+            		</div>
+					<div id="<%=coll_obj%>" class="accordion-body collapse">
+						<div class="accordion-inner">
+							<% @requests_internacion_despues.each do |key, value| %>
+								<%=key + 1%>.&nbsp;<strong><%=value%></strong><br>
+								<% if elem[1].has_key?(key + 1) then %>
+									<% if !elem[1][key + 1].empty? && !elem[1][key + 1].nil? then %> 
+										<em><%=elem[1][key + 1]%></em><br>
+									<% else %>
+										&nbsp;---&nbsp;<br>
+									<% end %>									
+								<% else %>
+									&nbsp;---&nbsp;<br>
+								<% end %>
+								<br>
+                    		<% end %>							
+            			</div>
+            	    </div>
+            	</div>
+				<% line_no += 1 %>
+				<% end %>				
+ 			</div>
+ 		</div>
+
+    	<div class="span8" id="requests_menores">
+    		<h4>Menores de 20 años, sin embarazo aún</h4>
+
+        	<div class="accordion" id="accordion_requests_menores">
+        		<% line_no = 0 %>
+        		<% @responses_menores.each do |elem| %>
+        		<% coll_obj = "collapse_menores" + line_no.to_s %>
+            	<div class="accordion-group">
+            		<div class="accordion-heading">
+                    	<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion5" href="#<%=coll_obj%>">
+							<!-- Apodo -->
+                    		<%=elem[1][1]%>&nbsp;&nbsp;<%=elem[1][2]%>
+                    	</a>
+            		</div>
+					<div id="<%=coll_obj%>" class="accordion-body collapse">
+						<div class="accordion-inner">
+							<% @requests_menores.each do |key, value| %>
+								<%=key + 1%>.&nbsp;<strong><%=value%></strong><br>
+								<% if elem[1].has_key?(key + 1) then %>
+									<% if !elem[1][key + 1].empty? && !elem[1][key + 1].nil? then %> 
+										<em><%=elem[1][key + 1]%></em><br>
+									<% else %>
+										&nbsp;---&nbsp;<br>
+									<% end %>									
+								<% else %>
+									&nbsp;---&nbsp;<br>
+								<% end %>
+								<br>
+                    		<% end %>							
+            			</div>
+            	    </div>
+            	</div>
+				<% line_no += 1 %>
+				<% end %>				
+ 			</div>
  		</div>
 
 	</div> <!-- end class="row" -->

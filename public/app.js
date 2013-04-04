@@ -245,24 +245,29 @@ function initializeMap() {
 	var boxText = document.createElement("div");
 	boxText.style.cssText = "border: 1px solid gray; margin-top: 8px; background: white; padding: 5px;";
 	boxText.innerHTML = 
-		'<strong>Villa Lujan 2012</strong>'+
+		'<strong><span style="font-size:90%;">Unidad Sanitaria 11,<br>&nbsp;&nbsp;Villa Luján, 2012</span></strong>'+
 		'<br />'+
 		'<ul style="font-size:85%;">'+
 		'<li>'+
-		'En el año 2012 126 mujeres realizaron su primer control prenatal en la US 11 de Villa Luján, Avellaneda'+
+		'<strong>126</strong> mujeres realizaron su primer control prenatal'+
 		'</li>'+
 		'<li>'+
-		'Su edad promedio era de 23 años.'+
+		'edad promedio: <strong>23 años</strong>'+
 		'<br />'+
-		'34 mujeres (27% de ellas) tenían 20 años o menos. Casi la mitad ya había tenido un embarazo anterior. las 24 '+
-		'</li>'+
 		'<li>'+
-		'34%, hicieron  su primer control antes de las 12 semanas'+
+		'semana de gestación en la 1ra visita:'+
+		'</li>'+
+		'<strong>34%</strong> en el 1er trimestre (lo recomendado)'+
 		'<br />'+
-		'14%, hicieron su primer control después de las 24 semanas.'+
-		'</li>'+
+		'<strong>52%</strong> en el 2do trimestre (situación delicada)'+
+		'<br />'+
+		'<strong>14%</strong> en el 3er trimestre (riesgoso)'+
+		'<br />'+
 		'<li>'+
-		'32,5%, habían tenido al menos un aborto.'+
+		'<strong>27%</strong> tenían menos de <strong>20 años y</strong> casi la mitad ya había tenido un embarazo anterior.'+
+		'</li>'+
+		'<strong>32,5%</strong> habían tenido al menos un <strong>aborto</strong> previo a este embarazo.'+
+		'<li>'+
 		'</li>'+
 		'</ul>';
 
@@ -403,9 +408,12 @@ function initializeMap() {
 	$('#form_internacion_despues').hide();
 	$('#form_menores').hide();
 
-	$('#request_menores').hide();
+	$('#requests_embarazo').hide();
+	$('#requests_internacion_durante').hide();
+	$('#requests_parto').hide();
+	$('#requests_internacion_despues').hide();
+	$('#requests_menores').hide();
 
-    //$('#table').hide();
     $('#table_hospitales').hide();
 	$('#table_cesacs').hide();
 	$('#table_barrios').hide();
@@ -445,7 +453,7 @@ function createMarker(entities, data_type) {
         	icon: image,
         	shadow: shadow,
         	title: title,
-        	content: "Ich bin der <strong>Content</strong> für Hospitales und Cesacs!",
+        	content: " ",
         	animation: google.maps.Animation.DROP
     	});
     	marker.setZIndex(google.maps.Marker.MAX_ZINDEX - i);
@@ -908,19 +916,27 @@ function showTable(table) {
 	return false;
 }
 
+/////////////////////////////////////////////////////////////////////
+// Menue steering selectors
+/////////////////////////////////////////////////////////////////////
+
   $('.view_selector a[href="#view=form_embarazo"]').click(function() {
-    //$('#table').hide();
+    $('#map').hide();	
+
     $('#table_hospitales').hide();
 	$('#table_cesacs').hide();
 	$('#table_barrios').hide();
-
-    $('#map').hide();	
+	
 	$('#form_internacion_durante').hide();
 	$('#form_parto').hide();
 	$('#form_internacion_despues').hide();
 	$('#form_menores').hide();
 
-	$('#request_menores').hide();
+	$('#requests_embarazo').hide();
+	$('#requests_internacion_durante').hide();
+	$('#requests_parto').hide();
+	$('#requests_internacion_despues').hide();
+	$('#requests_menores').hide();
 
 	$('#form_embarazo').show();
     SMA.view = 'form';
@@ -928,18 +944,22 @@ function showTable(table) {
   });
 
   $('.view_selector a[href="#view=form_internacion_durante"]').click(function() {
-    //$('#table').hide();
+    $('#map').hide();	
+
     $('#table_hospitales').hide();
 	$('#table_cesacs').hide();
 	$('#table_barrios').hide();
 
-    $('#map').hide();	
 	$('#form_embarazo').hide();
 	$('#form_parto').hide();
 	$('#form_internacion_despues').hide();
 	$('#form_menores').hide();
 
-	$('#request_menores').hide();
+	$('#requests_embarazo').hide();
+	$('#requests_internacion_durante').hide();
+	$('#requests_parto').hide();
+	$('#requests_internacion_despues').hide();
+	$('#requests_menores').hide();
 
 	$('#form_internacion_durante').show();
     SMA.view = 'form';
@@ -947,18 +967,22 @@ function showTable(table) {
   });
 
   $('.view_selector a[href="#view=form_parto"]').click(function() {
-    //$('#table').hide();
+    $('#map').hide();	
+
     $('#table_hospitales').hide();
 	$('#table_cesacs').hide();
 	$('#table_barrios').hide();
 
-    $('#map').hide();	
 	$('#form_embarazo').hide();
 	$('#form_internacion_durante').hide();
 	$('#form_internacion_despues').hide();
 	$('#form_menores').hide();
 
-	$('#request_menores').hide();
+	$('#requests_embarazo').hide();
+	$('#requests_internacion_durante').hide();
+	$('#requests_parto').hide();
+	$('#requests_internacion_despues').hide();
+	$('#requests_menores').hide();
 
 	$('#form_parto').show();
     SMA.view = 'form';
@@ -966,18 +990,22 @@ function showTable(table) {
   });
 
   $('.view_selector a[href="#view=form_internacion_despues"]').click(function() {
-    //$('#table').hide();
+    $('#map').hide();	
+
     $('#table_hospitales').hide();
 	$('#table_cesacs').hide();
 	$('#table_barrios').hide();
 
-    $('#map').hide();	
 	$('#form_embarazo').hide();
 	$('#form_internacion_durante').hide();
 	$('#form_parto').hide();
 	$('#form_menores').hide();
 
-	$('#request_menores').hide();
+	$('#requests_embarazo').hide();
+	$('#requests_internacion_durante').hide();
+	$('#requests_parto').hide();
+	$('#requests_internacion_despues').hide();
+	$('#requests_menores').hide();
 
 	$('#form_internacion_despues').show();
     SMA.view = 'form';
@@ -985,43 +1013,31 @@ function showTable(table) {
   });
 
   $('.view_selector a[href="#view=form_menores"]').click(function() {
-    //$('#table').hide();
+    $('#map').hide();	
+
     $('#table_hospitales').hide();
 	$('#table_cesacs').hide();
 	$('#table_barrios').hide();
-
-    $('#map').hide();	
+	
 	$('#form_embarazo').hide();
 	$('#form_internacion_durante').hide();
 	$('#form_parto').hide();
 	$('#form_internacion_despues').hide();
 
-	$('#request_menores').hide();
+	$('#requests_embarazo').hide();
+	$('#requests_internacion_durante').hide();
+	$('#requests_parto').hide();
+	$('#requests_internacion_despues').hide();
+	$('#requests_menores').hide();
 
 	$('#form_menores').show();
     SMA.view = 'form';
     showViewType(SMA.view);
   });
 
-  $('.view_selector a[href="#view=request_menores"]').click(function() {
-    $('#table_hospitales').hide();
-	$('#table_cesacs').hide();
-	$('#table_barrios').hide();
-
+  $('.view_selector a[href="#view=requests_embarazo"]').click(function() {
     $('#map').hide();	
-	$('#form_embarazo').hide();
-	$('#form_internacion_durante').hide();
-	$('#form_parto').hide();
-	$('#form_internacion_despues').hide();
 
-	$('#request_menores').show();
-    SMA.view = 'request';
-    showViewType(SMA.view);
-  });
-
-	// Map view
-  $('.view_selector a[href="#view=map"]').click(function() {
-    //$('#table').hide();
     $('#table_hospitales').hide();
 	$('#table_cesacs').hide();
 	$('#table_barrios').hide();
@@ -1032,7 +1048,125 @@ function showTable(table) {
 	$('#form_internacion_despues').hide();
 	$('#form_menores').hide();
 
-	$('#request_menores').hide();
+	$('#requests_menores').hide();
+	$('#requests_internacion_durante').hide();
+	$('#requests_parto').hide();
+	$('#requests_internacion_despues').hide();
+
+	$('#requests_embarazo').show();
+    SMA.view = 'request';
+    showViewType(SMA.view);
+  });
+
+  $('.view_selector a[href="#view=requests_internacion_durante"]').click(function() {
+    $('#map').hide();	
+
+    $('#table_hospitales').hide();
+	$('#table_cesacs').hide();
+	$('#table_barrios').hide();
+
+	$('#form_embarazo').hide();
+	$('#form_internacion_durante').hide();
+	$('#form_parto').hide();
+	$('#form_internacion_despues').hide();
+	$('#form_menores').hide();
+
+	$('#requests_embarazo').hide();
+	$('#requests_menores').hide();
+	$('#requests_parto').hide();
+	$('#requests_internacion_despues').hide();
+
+	$('#requests_internacion_durante').show();
+    SMA.view = 'request';
+    showViewType(SMA.view);
+  });
+
+  $('.view_selector a[href="#view=requests_parto"]').click(function() {
+    $('#map').hide();	
+
+    $('#table_hospitales').hide();
+	$('#table_cesacs').hide();
+	$('#table_barrios').hide();
+
+	$('#form_embarazo').hide();
+	$('#form_internacion_durante').hide();
+	$('#form_parto').hide();
+	$('#form_internacion_despues').hide();
+	$('#form_menores').hide();
+
+	$('#requests_embarazo').hide();
+	$('#requests_internacion_durante').hide();
+	$('#requests_internacion_despues').hide();
+	$('#requests_menores').hide();
+
+	$('#requests_parto').show();
+    SMA.view = 'request';
+    showViewType(SMA.view);
+  });
+
+  $('.view_selector a[href="#view=requests_internacion_despues"]').click(function() {
+    $('#map').hide();	
+
+    $('#table_hospitales').hide();
+	$('#table_cesacs').hide();
+	$('#table_barrios').hide();
+
+	$('#form_embarazo').hide();
+	$('#form_internacion_durante').hide();
+	$('#form_parto').hide();
+	$('#form_internacion_despues').hide();
+	$('#form_menores').hide();
+
+	$('#requests_embarazo').hide();
+	$('#requests_internacion_durante').hide();
+	$('#requests_parto').hide();
+	$('#requests_menores').hide();
+
+	$('#requests_internacion_despues').show();
+    SMA.view = 'request';
+    showViewType(SMA.view);
+  });
+
+  $('.view_selector a[href="#view=requests_menores"]').click(function() {
+    $('#map').hide();	
+
+    $('#table_hospitales').hide();
+	$('#table_cesacs').hide();
+	$('#table_barrios').hide();
+
+	$('#form_embarazo').hide();
+	$('#form_internacion_durante').hide();
+	$('#form_parto').hide();
+	$('#form_internacion_despues').hide();
+	$('#form_menores').hide();
+
+	$('#requests_embarazo').hide();
+	$('#requests_internacion_durante').hide();
+	$('#requests_parto').hide();
+	$('#requests_internacion_despues').hide();
+
+	$('#requests_menores').show();
+    SMA.view = 'request';
+    showViewType(SMA.view);
+  });
+
+	// Map view
+  $('.view_selector a[href="#view=map"]').click(function() {
+    $('#table_hospitales').hide();
+	$('#table_cesacs').hide();
+	$('#table_barrios').hide();
+
+	$('#form_embarazo').hide();
+	$('#form_internacion_durante').hide();
+	$('#form_parto').hide();
+	$('#form_internacion_despues').hide();
+	$('#form_menores').hide();
+
+	$('#requests_embarazo').hide();
+	$('#requests_internacion_durante').hide();
+	$('#requests_parto').hide();
+	$('#requests_internacion_despues').hide();
+	$('#requests_menores').hide();
 
     $('#map').show();
     SMA.view = 'map';
@@ -1042,22 +1176,27 @@ function showTable(table) {
 // Table view
   $('.view_selector a[href="#view=table"]').click(function() {
     $('#map').hide();
+
 	$('#form_embarazo').hide();
 	$('#form_internacion_durante').hide();
 	$('#form_parto').hide();
 	$('#form_internacion_despues').hide();
 	$('#form_menores').hide();
 
-	$('#request_menores').hide();
+	$('#requests_embarazo').hide();
+	$('#requests_internacion_durante').hide();
+	$('#requests_parto').hide();
+	$('#requests_internacion_despues').hide();
+	$('#requests_menores').hide();
 
-    //$('#table').show();
     SMA.view = 'table';
     showViewType(SMA.view);
 	$('#hospitales_table_select').attr('checked', true);		
 	showTable('hospitales_table');
   });
 
+
 $(document).ready(function() {
 //	console.log("document ready()...");
-	
+
 });

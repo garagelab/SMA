@@ -38,10 +38,6 @@ RESPUESTAS = {
 	:menores => "0AphQI4-3PsVcdGhPX0RMTVJYcy1obGFvZ3I5VGVlOGc"
 }
 
-#	https://docs.google.com/spreadsheet/pub?key=0AphQI4-3PsVcdEFWcXJkTlE0MVNDUG01bXE0enBmSWc&output=html
-
-#0Asjo1LSXGKxCdDY4VFVjalBOd1owQTd1a1FwcVh4TUE
-
 Barrios = DB[TABLES[:barrios]]
 EstablecimientosDeSalud = DB[TABLES[:es]]
 
@@ -94,12 +90,11 @@ class SMA < Sinatra::Base
       redirect(request.url.sub(COM, '\1\2.org.ar'), 301)
     end
 
-# 	####################################################
-# 	# Testing nokogiri HTML-Parser.
-# 	# require "nokogiri"
-# 	####################################################
+	# ==========================================================
+	# Preparation for request analysis.
+	# ==========================================================
 	https_docs_google_spreadsheet = "https://docs.google.com/spreadsheet/"
-
+	
 	# generate URLs 
 	url_embarazo = https_docs_google_spreadsheet + "pub?key=" + RESPUESTAS[:embarazo] + "&output=html"
 	url_internacion_durante = https_docs_google_spreadsheet + "pub?key=" + RESPUESTAS[:internacion_durante] + "&output=html"
@@ -115,69 +110,290 @@ class SMA < Sinatra::Base
 	doc_menores = open(url_menores)
 	
 	# Parse html content.
-    @html_content_embarazo = Nokogiri::HTML(doc_embarazo)
-    @html_content_internacion_durante = Nokogiri::HTML(doc_internacion_durante)
-    @html_content_parto = Nokogiri::HTML(doc_parto)
-    @html_content_internacion_despues = Nokogiri::HTML(doc_internacion_despues)
-    @html_content_menores = Nokogiri::HTML(doc_menores)
+    html_content_embarazo = Nokogiri::HTML(doc_embarazo)
+	html_content_internacion_durante = Nokogiri::HTML(doc_internacion_durante)
+    html_content_parto = Nokogiri::HTML(doc_parto)
+    html_content_internacion_despues = Nokogiri::HTML(doc_internacion_despues)
+    html_content_menores = Nokogiri::HTML(doc_menores)
 
-	# Titles
-	@title_embarazo = @html_content_embarazo.xpath('//html/head/title').text
-	@title_internacion_durante = @html_content_internacion_durante.xpath('//html/head/title').text
-	@title_parto = @html_content_parto.xpath('//html/head/title').text
-	@title_internacion_despues = @html_content_internacion_despues.xpath('//html/head/title').text
-	@title_menores = @html_content_menores.xpath('//html/head/title').text
+	# ==========================================================
+	# Determine form requests.
+	# ==========================================================
+	requests_trigger = ['Marca temporal', 'Timestamp']
+	@requests_embarazo = Hash.new
+	@requests_internacion_durante = Hash.new
+	@requests_parto = Hash.new
+	@requests_internacion_despues = Hash.new
+	@requests_menores = Hash.new
 
-	TOTAL_LOOKUP = 'td[@class = "s0"]'
-
-	# Evaluate total rows for every table.
- 	@total_embarazo = 0
- 	@html_content_embarazo.css(TOTAL_LOOKUP).each do |element|
-   		@total_embarazo += 1
-	end	
-	@total_embarazo = 0 if @total_embarazo < 0
-	puts @total_embarazo
-
- 	@total_internacion_durante = 0
- 	@html_content_internacion_durante.css(TOTAL_LOOKUP).each do |element|
-   		@total_internacion_durante += 1
+	collect = false
+	request_no = 0
+	html_content_embarazo.xpath('//td').each do |elem|
+		if not elem.text.empty?
+			if requests_trigger.any? { |s| s.include?(elem.text) }
+				collect = true
+			end
+			if collect
+				break if elem.text == '.'
+				@requests_embarazo.store(request_no, elem.text)
+				request_no += 1
+			end
+		end
 	end
-	@total_internacion_durante = 0 if @total_internacion_durante < 0
-	puts @total_internacion_durante
 
- 	@total_parto = 0
- 	@html_content_parto.css(TOTAL_LOOKUP).each do |element|
-   		@total_parto += 1
+	collect = false
+	request_no = 0
+	html_content_internacion_durante.xpath('//td').each do |elem|
+		if not elem.text.empty?
+			if requests_trigger.any? { |s| s.include?(elem.text) }
+				collect = true
+			end
+			if collect
+				break if elem.text == '.'
+				@requests_internacion_durante.store(request_no, elem.text)
+				request_no += 1
+			end
+		end
 	end
-	@total_parto = 0 if @total_parto < 0
-	puts @total_parto
-
- 	@total_internacion_despues = 0
- 	@html_content_internacion_despues.css(TOTAL_LOOKUP).each do |element|
-   		@total_internacion_despues += 1
-	end
-	@total_internacion_despues = 0 if @total_internacion_despues < 0
-	puts @total_internacion_despues
-
- 	@total_menores = 0
- 	@html_content_menores.css(TOTAL_LOOKUP).each do |element|
-   		@total_menores += 1
-	end
-	@total_menores = 0 if @total_menores < 0
-	puts @total_menores
 	
-
-	# Evaluate total of all testimonios.
-	@total_testimonios = @total_embarazo + @total_internacion_durante + @total_parto + @total_internacion_despues + @total_menores
-	puts @total_testimonios
-
-	# Retrieve test for website output
-	@resp_menores = Array.new
- 	@html_content_menores.xpath('//td').each do |element|
-		@resp_menores.push element.text if not element.text.empty?
+	collect = false
+	request_no = 0
+	html_content_parto.xpath('//td').each do |elem|
+		if not elem.text.empty?
+			if requests_trigger.any? { |s| s.include?(elem.text) }
+				collect = true
+			end
+			if collect
+				break if elem.text == '.'
+				@requests_parto.store(request_no, elem.text)
+				request_no += 1
+			end
+		end
 	end
 
-# 	####################################################
+	collect = false
+	request_no = 0
+	html_content_internacion_despues.xpath('//td').each do |elem|
+		if not elem.text.empty?
+			if requests_trigger.any? { |s| s.include?(elem.text) }
+				collect = true
+			end
+			if collect
+				break if elem.text == '.'
+				@requests_internacion_despues.store(request_no, elem.text)
+				request_no += 1
+			end
+		end
+	end
+
+	collect = false
+	request_no = 0
+	html_content_menores.xpath('//td').each do |elem|
+		if not elem.text.empty?
+			if requests_trigger.any? { |s| s.include?(elem.text) }
+				collect = true
+			end
+			if collect
+				break if elem.text == '.'
+				@requests_menores.store(request_no, elem.text)
+				request_no += 1
+			end
+		end
+	end
+
+	# ==========================================================
+	# Determine totals of responses and header information (id).
+	# ==========================================================
+	IS_REQUEST_LOOKUP = 'td[@class = "s0"]'
+	responses_embarazo_header = Array.new
+	responses_internacion_durante_header = Array.new
+	responses_parto_header = Array.new
+	responses_internacion_despues_header = Array.new
+	responses_menores_header = Array.new
+
+	@tot_responses_embarazo = 0
+	@tot_responses_internacion_durante = 0
+	@tot_responses_parto = 0
+	@tot_responses_internacion_despues = 0
+	@tot_responses_menores = 0
+	
+	html_content_embarazo.css(IS_REQUEST_LOOKUP).each do |elem|
+		responses_embarazo_header.push elem.text 
+		@tot_responses_embarazo += 1 	
+	end
+	html_content_internacion_durante.css(IS_REQUEST_LOOKUP).each do |elem|
+		responses_internacion_durante_header.push elem.text 
+		@tot_responses_internacion_durante += 1 	
+	end
+	html_content_parto.css(IS_REQUEST_LOOKUP).each do |elem|
+		responses_parto_header.push elem.text 
+		@tot_responses_parto += 1 	
+	end
+	html_content_internacion_despues.css(IS_REQUEST_LOOKUP).each do |elem|
+		responses_internacion_despues_header.push elem.text 
+		@tot_responses_internacion_despues += 1 	
+	end
+	html_content_menores.css(IS_REQUEST_LOOKUP).each do |elem|
+		responses_menores_header.push elem.text 
+		@tot_responses_menores += 1 	
+	end
+
+	# ==========================================================
+	# Determine form responses.
+	# ==========================================================
+	# First we get the gross amount of existing response data.
+	tmp_extract_embarazo = Array.new
+	tmp_extract_internacion_durante = Array.new
+	tmp_extract_parto = Array.new
+	tmp_extract_internacion_despues = Array.new
+	tmp_extract_menores = Array.new
+
+	html_content_embarazo.xpath('//td[@class]').each do |elem|
+		tmp_extract_embarazo.push elem.text 	
+	end
+
+	html_content_internacion_durante.xpath('//td[@class]').each do |elem|
+		tmp_extract_internacion_durante.push elem.text 	
+	end
+
+	html_content_parto.xpath('//td[@class]').each do |elem|
+		tmp_extract_parto.push elem.text 	
+	end
+
+	html_content_internacion_despues.xpath('//td[@class]').each do |elem|
+		tmp_extract_internacion_despues.push elem.text 	
+	end
+
+	html_content_menores.xpath('//td[@class]').each do |elem|
+		tmp_extract_menores.push elem.text 	
+	end
+
+	# Now we assign the responses to their corresponding header id's.
+	@responses_embarazo = Hash.new
+	@responses_internacion_durante = Hash.new
+	@responses_parto = Hash.new
+	@responses_internacion_despues = Hash.new
+	@responses_menores = Hash.new
+
+	# embarazo
+	collect = false
+	for response_id in responses_embarazo_header
+		response_data = Hash.new
+		for elem in tmp_extract_embarazo
+			# Response id was found. Trigger collect indicator and init necessary stuff here.
+			if response_id == elem then
+				collect = true
+				line_no = 1
+			end
+			next if not collect # Nothing to collect -> go back to inner for-loop head.
+			if collect then
+				if elem == "." then				
+					collect = false
+					break
+				else
+					response_data.store(line_no, elem) if not elem == "."
+					line_no += 1	
+				end
+			end
+		end
+		@responses_embarazo[response_id] = response_data
+	end
+
+	# internacion_durante
+	collect = false
+	for response_id in responses_internacion_durante_header
+		response_data = Hash.new
+		for elem in tmp_extract_internacion_durante
+			# Response id was found. Trigger collect indicator and init necessary stuff here.
+			if response_id == elem then
+				collect = true
+				line_no = 1
+			end
+			next if not collect # Nothing to collect -> go back to inner for-loop head.
+			if collect then
+				if elem == "." then				
+					collect = false
+					break
+				else
+					response_data.store(line_no, elem) if not elem == "."
+					line_no += 1	
+				end
+			end
+		end
+		@responses_internacion_durante[response_id] = response_data
+	end
+
+	# parto
+	collect = false
+	for response_id in responses_parto_header
+		response_data = Hash.new
+		for elem in tmp_extract_parto
+			# Response id was found. Trigger collect indicator and init necessary stuff here.
+			if response_id == elem then
+				collect = true
+				line_no = 1
+			end
+			next if not collect # Nothing to collect -> go back to inner for-loop head.
+			if collect then
+				if elem == "." then				
+					collect = false
+					break
+				else
+					response_data.store(line_no, elem) if not elem == "."
+					line_no += 1	
+				end
+			end
+		end
+		@responses_parto[response_id] = response_data
+	end
+
+	# internacion_despues
+	collect = false
+	for response_id in responses_internacion_despues_header
+		response_data = Hash.new
+		for elem in tmp_extract_internacion_despues
+			# Response id was found. Trigger collect indicator and init necessary stuff here.
+			if response_id == elem then
+				collect = true
+				line_no = 1
+			end
+			next if not collect # Nothing to collect -> go back to inner for-loop head.
+			if collect then
+				if elem == "." then				
+					collect = false
+					break
+				else
+					response_data.store(line_no, elem) if not elem == "."
+					line_no += 1	
+				end
+			end
+		end
+		@responses_internacion_despues[response_id] = response_data
+	end
+
+	# menores
+	collect = false
+	for response_id in responses_menores_header
+		response_data = Hash.new
+		for elem in tmp_extract_menores
+			# Response id was found. Trigger collect indicator and init necessary stuff here.
+			if response_id == elem then
+				collect = true
+				line_no = 1
+			end
+			next if not collect # Nothing to collect -> go back to inner for-loop head.
+			if collect then
+				if elem == "." then				
+					collect = false
+					break
+				else
+					response_data.store(line_no, elem) if not elem == "."
+					line_no += 1	
+				end
+			end
+		end
+		@responses_menores[response_id] = response_data
+	end
 
   end
 
