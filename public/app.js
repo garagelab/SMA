@@ -32,33 +32,34 @@ var cesacs_entities = [];
 
 var COLUMNS = {
   barrios: [
-    {sName: "NOMBRE DEL BARRIO", sTitle: "NOMBRE DEL BARRIO", bVisible: true, aTargets: [0]},
-    {sName: "OTRO NOMBRE DEL BARRIO", sTitle: "OTRO NOMBRE DEL BARRIO", bVisible: true, aTargets: [1]},
-    {sName: "Poligono", sTitle: "Poligono", bVisible: false, aTargets: [2]},
-    {sName: "Puntos", sTitle: "Puntos", bVisible: false, aTargets: [3]},
-    {sName: "PARTIDO", sTitle: "PARTIDO", bVisible: true, aTargets: [4]},
-    {sName: "LOCALIDAD", sTitle: "LOCALIDAD", bVisible: true, aTargets: [5]},
-    {sName: "AÑO DE CONFORMACIÓN DEL BARRIO", sTitle: "AÑO DE CONFORMACIÓN DEL BARRIO", bVisible: true, aTargets: [6]},
-    {sName: "MODALIDAD EN LA QUE SE CONSTITUYÓ EL BARRIO", sTitle: "MODALIDAD EN LA QUE SE CONSTITUYÓ EL BARRIO", bVisible: true, aTargets: [7]},
-    {sName: "AÑO DE MAYOR CRECIMIENTO", sTitle: "AÑO DE MAYOR CRECIMIENTO", bVisible: true, aTargets: [8]},
-    {sName: "NRO DE FLIAS", sTitle: "NRO DE FLIAS", bVisible: true, aTargets: [9]},
-    {sName: "ACTORES QUE PARTICIPAN DE LA VENTA 2", sTitle: "ACTORES QUE PARTICIPAN DE LA VENTA 2", bVisible: true, aTargets: [10]},
-    {sName: "MODALIDAD ADOPTADA POR LAS NUEVAS GENERACIONES 1", sTitle: "MODALIDAD ADOPTADA POR LAS NUEVAS GENERACIONES 1", bVisible: true, aTargets: [11]},
-    {sName: "MODALIDAD ADOPTADA POR LAS NUEVAS GENERACIONES 2", sTitle: "MODALIDAD ADOPTADA POR LAS NUEVAS GENERACIONES 2", bVisible: true, aTargets: [12]},
-    {sName: "ACCESO A LA ENERGÍA", sTitle: "ACCESO A LA ENERGÍA", bVisible: true, aTargets: [13]},
-    {sName: "RED CLOACAL", sTitle: "RED CLOACAL", bVisible: true, aTargets: [14]},
-    {sName: "AGUA", sTitle: "AGUA", bVisible: true, aTargets: [15]},
-    {sName: "PROVISIÓN DE AGUA", sTitle: "PROVISIÓN DE AGUA", bVisible: true, aTargets: [16]},
-    {sName: "GAS", sTitle: "GAS", bVisible: true, aTargets: [17]},
-    {sName: "DESAGÜES PLUVIALES", sTitle: "DESAGÜES PLUVIALES", bVisible: true, aTargets: [18]},
-    {sName: "ALUMBRADO PÚBLICO", sTitle: "ALUMBRADO PÚBLICO", bVisible: true, aTargets: [19]},
-    {sName: "RECOLECCIÓN DE RESIDUOS", sTitle: "RECOLECCIÓN DE RESIDUOS", bVisible: true, aTargets: [20]},
-    {sName: "EL BARRIO SE ENCUENTRA CERCA DE 1", sTitle: "EL BARRIO SE ENCUENTRA CERCA DE 1", bVisible: true, aTargets: [21]},
-    {sName: "EL BARRIO SE ENCUENTRA CERCA DE 2", sTitle: "EL BARRIO SE ENCUENTRA CERCA DE 2", bVisible: true, aTargets: [22]},
-    {sName: "EL BARRIO SE ENCUENTRA CERCA DE 3", sTitle: "EL BARRIO SE ENCUENTRA CERCA DE 3", bVisible: true, aTargets: [23]},
-    {sName: "EXISTENCIA DE UN PROGRAMA DE VIVIENDA DEL ESTADO", sTitle: "EXISTENCIA DE UN PROGRAMA DE VIVIENDA DEL ESTADO", bVisible: true, aTargets: [24]},
-    {sName: "ESPECIFICAR CANTIDAD DE CASILLAS", sTitle: "ESPECIFICAR CANTIDAD DE CASILLAS", bVisible: true, aTargets: [25]},
-    {sName: "LLEGADA AL BARRIO EN TRANSPORTE PÚBLICO", sTitle: "LLEGADA AL BARRIO EN TRANSPORTE PÚBLICO", bVisible: true, aTargets: [26]}
+    {sName: "CÓDIGO", sTitle: "CÓDIGO", bVisible: false, aTargets: [0]},
+    {sName: "NOMBRE DEL BARRIO", sTitle: "NOMBRE DEL BARRIO", bVisible: true, aTargets: [1]},
+    {sName: "OTRO NOMBRE DEL BARRIO", sTitle: "OTRO NOMBRE DEL BARRIO", bVisible: true, aTargets: [2]},
+    {sName: "Poligono", sTitle: "Poligono", bVisible: false, aTargets: [3]},
+    {sName: "Puntos", sTitle: "Puntos", bVisible: false, aTargets: [4]},
+    {sName: "PARTIDO", sTitle: "PARTIDO", bVisible: true, aTargets: [5]},
+    {sName: "LOCALIDAD", sTitle: "LOCALIDAD", bVisible: true, aTargets: [6]},
+    {sName: "AÑO DE CONFORMACIÓN DEL BARRIO", sTitle: "AÑO DE CONFORMACIÓN DEL BARRIO", bVisible: true, aTargets: [7]},
+    {sName: "MODALIDAD EN LA QUE SE CONSTITUYÓ EL BARRIO", sTitle: "MODALIDAD EN LA QUE SE CONSTITUYÓ EL BARRIO", bVisible: true, aTargets: [8]},
+    {sName: "AÑO DE MAYOR CRECIMIENTO", sTitle: "AÑO DE MAYOR CRECIMIENTO", bVisible: true, aTargets: [9]},
+    {sName: "NRO DE FLIAS", sTitle: "NRO DE FLIAS", bVisible: true, aTargets: [10]},
+    {sName: "ACTORES QUE PARTICIPAN DE LA VENTA 2", sTitle: "ACTORES QUE PARTICIPAN DE LA VENTA 2", bVisible: true, aTargets: [11]},
+    {sName: "MODALIDAD ADOPTADA POR LAS NUEVAS GENERACIONES 1", sTitle: "MODALIDAD ADOPTADA POR LAS NUEVAS GENERACIONES 1", bVisible: true, aTargets: [12]},
+    {sName: "MODALIDAD ADOPTADA POR LAS NUEVAS GENERACIONES 2", sTitle: "MODALIDAD ADOPTADA POR LAS NUEVAS GENERACIONES 2", bVisible: true, aTargets: [13]},
+    {sName: "ACCESO A LA ENERGÍA", sTitle: "ACCESO A LA ENERGÍA", bVisible: true, aTargets: [14]},
+    {sName: "RED CLOACAL", sTitle: "RED CLOACAL", bVisible: true, aTargets: [15]},
+    {sName: "AGUA", sTitle: "AGUA", bVisible: true, aTargets: [16]},
+    {sName: "PROVISIÓN DE AGUA", sTitle: "PROVISIÓN DE AGUA", bVisible: true, aTargets: [17]},
+    {sName: "GAS", sTitle: "GAS", bVisible: true, aTargets: [18]},
+    {sName: "DESAGÜES PLUVIALES", sTitle: "DESAGÜES PLUVIALES", bVisible: true, aTargets: [19]},
+    {sName: "ALUMBRADO PÚBLICO", sTitle: "ALUMBRADO PÚBLICO", bVisible: true, aTargets: [20]},
+    {sName: "RECOLECCIÓN DE RESIDUOS", sTitle: "RECOLECCIÓN DE RESIDUOS", bVisible: true, aTargets: [21]},
+    {sName: "EL BARRIO SE ENCUENTRA CERCA DE 1", sTitle: "EL BARRIO SE ENCUENTRA CERCA DE 1", bVisible: true, aTargets: [22]},
+    {sName: "EL BARRIO SE ENCUENTRA CERCA DE 2", sTitle: "EL BARRIO SE ENCUENTRA CERCA DE 2", bVisible: true, aTargets: [23]},
+    {sName: "EL BARRIO SE ENCUENTRA CERCA DE 3", sTitle: "EL BARRIO SE ENCUENTRA CERCA DE 3", bVisible: true, aTargets: [24]},
+    {sName: "EXISTENCIA DE UN PROGRAMA DE VIVIENDA DEL ESTADO", sTitle: "EXISTENCIA DE UN PROGRAMA DE VIVIENDA DEL ESTADO", bVisible: true, aTargets: [25]},
+    {sName: "ESPECIFICAR CANTIDAD DE CASILLAS", sTitle: "ESPECIFICAR CANTIDAD DE CASILLAS", bVisible: true, aTargets: [26]},
+    {sName: "LLEGADA AL BARRIO EN TRANSPORTE PÚBLICO", sTitle: "LLEGADA AL BARRIO EN TRANSPORTE PÚBLICO", bVisible: true, aTargets: [27]}
   ],
 
   es: [
@@ -267,8 +268,6 @@ function initializeMap() {
 		'<strong>27%</strong> tenían menos de <strong>20 años y</strong> casi la mitad ya había tenido un embarazo anterior.'+
 		'</li>'+
 		'<strong>32,5%</strong> habían tenido al menos un <strong>aborto</strong> previo a este embarazo.'+
-		'<li>'+
-		'</li>'+
 		'</ul>';
 
 	var boxOptions = {
@@ -535,6 +534,7 @@ function onBarriosDataFetched(data) {
     	sPaginationType: "full_numbers",
       	aoColumnDefs: cols,
       	aaData: barrios_rows,
+      	aaSorting: [[ 1, "asc" ]],
       	aLengthMenu: [[25, 50], [25, 50]],
       	iDisplayLength: 25,
       	oLanguage: {
