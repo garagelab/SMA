@@ -280,23 +280,19 @@
             		<div class="accordion-heading">
                     	<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#<%=coll_obj%>">
 							<!-- Apodo -->
-                    		<%=elem[1][1]%>&nbsp;&nbsp;<%=elem[1][2]%>
+                    		<%=elem[1][1]%>&nbsp;&nbsp;<%=elem[1][@apodo_col[:embarazo]]%>
                     	</a>
             		</div>
 					<div id="<%=coll_obj%>" class="accordion-body collapse">
 						<div class="accordion-inner">
 							<% @requests_embarazo.each do |key, value| %>
-								<%=key + 1%>.&nbsp;<strong><%=value%></strong><br>
 								<% if elem[1].has_key?(key + 1) then %>
 									<% if !elem[1][key + 1].empty? && !elem[1][key + 1].nil? then %> 
+										<%=key + 1%>.&nbsp;<strong><%=value%></strong><br>
 										<em><%=elem[1][key + 1]%></em><br>
-									<% else %>
-										&nbsp;---&nbsp;<br>
+										<br>
 									<% end %>									
-								<% else %>
-									&nbsp;---&nbsp;<br>
-								<% end %>
-								<br>
+								<% end %>									
                     		<% end %>							
             			</div>
             	    </div>
@@ -317,23 +313,19 @@
             		<div class="accordion-heading">
                     	<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#<%=coll_obj%>">
 							<!-- Apodo -->
-                    		<%=elem[1][1]%>&nbsp;&nbsp;<%=elem[1][2]%>
+                    		<%=elem[1][1]%>&nbsp;&nbsp;<%=elem[1][@apodo_col[:internacion_durante]]%>
                     	</a>
             		</div>
 					<div id="<%=coll_obj%>" class="accordion-body collapse">
 						<div class="accordion-inner">
 							<% @requests_internacion_durante.each do |key, value| %>
-								<%=key + 1%>.&nbsp;<strong><%=value%></strong><br>
 								<% if elem[1].has_key?(key + 1) then %>
 									<% if !elem[1][key + 1].empty? && !elem[1][key + 1].nil? then %> 
+										<%=key + 1%>.&nbsp;<strong><%=value%></strong><br>
 										<em><%=elem[1][key + 1]%></em><br>
-									<% else %>
-										&nbsp;---&nbsp;<br>
+										<br>
 									<% end %>									
-								<% else %>
-									&nbsp;---&nbsp;<br>
-								<% end %>
-								<br>
+								<% end %>									
                     		<% end %>							
             			</div>
             	    </div>
@@ -354,23 +346,19 @@
             		<div class="accordion-heading">
                     	<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#<%=coll_obj%>">
 							<!-- Apodo -->
-                    		<%=elem[1][1]%>&nbsp;&nbsp;<%=elem[1][34]%>
+                    		<%=elem[1][1]%>&nbsp;&nbsp;<%=elem[1][@apodo_col[:parto]]%>
                     	</a>
             		</div>
 					<div id="<%=coll_obj%>" class="accordion-body collapse">
 						<div class="accordion-inner">
 							<% @requests_parto.each do |key, value| %>
-								<%=key + 1%>.&nbsp;<strong><%=value%></strong><br>
 								<% if elem[1].has_key?(key + 1) then %>
 									<% if !elem[1][key + 1].empty? && !elem[1][key + 1].nil? then %> 
+										<%=key + 1%>.&nbsp;<strong><%=value%></strong><br>
 										<em><%=elem[1][key + 1]%></em><br>
-									<% else %>
-										&nbsp;---&nbsp;<br>
+										<br>
 									<% end %>									
-								<% else %>
-									&nbsp;---&nbsp;<br>
-								<% end %>
-								<br>
+								<% end %>									
                     		<% end %>							
             			</div>
             	    </div>
@@ -391,23 +379,19 @@
             		<div class="accordion-heading">
                     	<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion4" href="#<%=coll_obj%>">
 							<!-- Apodo -->
-                    		<%=elem[1][1]%>&nbsp;&nbsp;<%=elem[1][2]%>
+                    		<%=elem[1][1]%>&nbsp;&nbsp;<%=elem[1][@apodo_col[:internacion_despues]]%>
                     	</a>
             		</div>
 					<div id="<%=coll_obj%>" class="accordion-body collapse">
 						<div class="accordion-inner">
 							<% @requests_internacion_despues.each do |key, value| %>
-								<%=key + 1%>.&nbsp;<strong><%=value%></strong><br>
 								<% if elem[1].has_key?(key + 1) then %>
 									<% if !elem[1][key + 1].empty? && !elem[1][key + 1].nil? then %> 
+										<%=key + 1%>.&nbsp;<strong><%=value%></strong><br>
 										<em><%=elem[1][key + 1]%></em><br>
-									<% else %>
-										&nbsp;---&nbsp;<br>
+										<br>
 									<% end %>									
-								<% else %>
-									&nbsp;---&nbsp;<br>
-								<% end %>
-								<br>
+								<% end %>									
                     		<% end %>							
             			</div>
             	    </div>
@@ -428,23 +412,19 @@
             		<div class="accordion-heading">
                     	<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion5" href="#<%=coll_obj%>">
 							<!-- Apodo -->
-                    		<%=elem[1][1]%>&nbsp;&nbsp;<%=elem[1][2]%>
+                    		<%=elem[1][1]%>&nbsp;&nbsp;<%=elem[1][@apodo_col[:menores]]%>
                     	</a>
             		</div>
 					<div id="<%=coll_obj%>" class="accordion-body collapse">
 						<div class="accordion-inner">
 							<% @requests_menores.each do |key, value| %>
-								<%=key + 1%>.&nbsp;<strong><%=value%></strong><br>
 								<% if elem[1].has_key?(key + 1) then %>
 									<% if !elem[1][key + 1].empty? && !elem[1][key + 1].nil? then %> 
+										<%=key + 1%>.&nbsp;<strong><%=value%></strong><br>
 										<em><%=elem[1][key + 1]%></em><br>
-									<% else %>
-										&nbsp;---&nbsp;<br>
+										<br>
 									<% end %>									
-								<% else %>
-									&nbsp;---&nbsp;<br>
-								<% end %>
-								<br>
+								<% end %>									
                     		<% end %>							
             			</div>
             	    </div>

@@ -120,6 +120,20 @@ class SMA < Sinatra::Base
 	# Determine form requests.
 	# ==========================================================
 	requests_trigger = ['Marca temporal', 'Timestamp']
+	
+	@apodo_col = {
+		# Embarazo y controles prenatales
+		:embarazo => -1,
+		# Internación durante el embarazo
+		:internacion_durante => -1,	
+		# Parto
+		:parto => -1,
+		# Internación después del parto o durante el puerperio
+		:internacion_despues => -1,	
+		# Menores de 20 años, sin embarazo aún
+		:menores => -1
+	}
+
 	@requests_embarazo = Hash.new
 	@requests_internacion_durante = Hash.new
 	@requests_parto = Hash.new
@@ -135,6 +149,10 @@ class SMA < Sinatra::Base
 			end
 			if collect
 				break if elem.text == '.'
+				#Determine column of apodo (nickname).
+				if elem.text == 'Apodo'
+					@apodo_col[:embarazo] = request_no + 1
+				end
 				@requests_embarazo.store(request_no, elem.text)
 				request_no += 1
 			end
@@ -150,6 +168,10 @@ class SMA < Sinatra::Base
 			end
 			if collect
 				break if elem.text == '.'
+				#Determine column of apodo (nickname).
+				if elem.text == 'Apodo'
+					@apodo_col[:internacion_durante] = request_no + 1
+				end
 				@requests_internacion_durante.store(request_no, elem.text)
 				request_no += 1
 			end
@@ -165,6 +187,10 @@ class SMA < Sinatra::Base
 			end
 			if collect
 				break if elem.text == '.'
+				#Determine column of apodo (nickname).
+				if elem.text == 'Apodo'
+					@apodo_col[:parto] = request_no + 1
+				end
 				@requests_parto.store(request_no, elem.text)
 				request_no += 1
 			end
@@ -180,6 +206,10 @@ class SMA < Sinatra::Base
 			end
 			if collect
 				break if elem.text == '.'
+				#Determine column of apodo (nickname).
+				if elem.text == 'Apodo'
+					@apodo_col[:internacion_despues] = request_no + 1
+				end
 				@requests_internacion_despues.store(request_no, elem.text)
 				request_no += 1
 			end
@@ -195,6 +225,10 @@ class SMA < Sinatra::Base
 			end
 			if collect
 				break if elem.text == '.'
+				#Determine column of apodo (nickname).
+				if elem.text == 'Apodo'
+					@apodo_col[:menores] = request_no + 1
+				end
 				@requests_menores.store(request_no, elem.text)
 				request_no += 1
 			end
