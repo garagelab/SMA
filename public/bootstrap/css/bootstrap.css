@@ -6158,3 +6158,39 @@ a.badge:focus {
 .affix {
   position: fixed;
 }
+
+/* SIDE CONTENT */
+.sidecontentpullout {
+	background-color: #EBAB09;
+	color: black;
+	padding: 4px 8px;
+	font-size: 0.9em;
+	-moz-border-radius-bottomleft: 1em;
+	-moz-border-radius-topleft: 1em;
+	-webkit-border-bottom-left-radius: 1em;
+	-webkit-border-top-left-radius: 1em;
+	border-bottom-left-radius: 1em;
+	border-top-left-radius: 1em;
+}
+
+.sidecontentpullout:hover {
+	background-color: #222222;
+	color: white;
+}
+
+.sidecontent {
+	background-color: #f4f4f4; 
+	color: black;
+	-moz-border-radius-bottomleft: 1em;
+	-webkit-border-bottom-left-radius: 1em;
+	border-bottom-left-radius: 1em;
+}
+
+.sidecontent > div > div {
+	padding-left: 10px;
+	padding-right: 40px;
+}
+
+.sidecontent a {
+	color: white;
+}

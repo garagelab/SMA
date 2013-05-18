@@ -13,7 +13,10 @@
 var avellaneda = new google.maps.LatLng(-34.680139,-58.341491);
 
 var barrios_table = '1_fEVSZmIaCJzDQoOgTY7pIcjBLng1MFOoeeTtYY';
-var es_table = '1srzoUc6ovddAOlLSYRRxZdF41Z6nLwxYnFFF7rM';
+// Old "Establecimientos" table
+//var es_table = '1srzoUc6ovddAOlLSYRRxZdF41Z6nLwxYnFFF7rM';
+// New "Establecimientos" table
+var es_table = '16MyxlnVrTntC1T3joWcZSrS-iv4cHTvffgYNVI0';
 
 var queryUrlHead = 'https://fusiontables.googleusercontent.com/fusiontables/api/query?sql=';
 var queryUrlTail = '&jsonCallback=?'; // ? could be a function name
@@ -1195,8 +1198,16 @@ function showTable(table) {
 	showTable('hospitales_table');
   });
 
-
 $(document).ready(function() {
 //	console.log("document ready()...");
 
+	$(".sidecontent").sidecontent({
+    	classmodifier: "sidecontent",
+    	attachto: "rightside",
+    	width: "300px",
+    	opacity: "0.8",
+    	pulloutpadding: "5",
+//    	textdirection: "vertical"
+    	textdirection: "horizontal"
+	});
 });

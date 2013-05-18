@@ -199,7 +199,8 @@ class SMA < Sinatra::Base
 
 	collect = false
 	request_no = 0
-	html_content_internacion_despues.xpath('//td').each do |elem|
+	html_content_internacion_despues.xpath('//td[@dir]').each do |elem|
+
 		if not elem.text.empty?
 			if requests_trigger.any? { |s| s.include?(elem.text) }
 				collect = true
@@ -265,7 +266,7 @@ class SMA < Sinatra::Base
 	end
 	html_content_internacion_despues.css(IS_REQUEST_LOOKUP).each do |elem|
 		responses_internacion_despues_header.push elem.text 
-		@tot_responses_internacion_despues += 1 	
+		@tot_responses_internacion_despues += 1 
 	end
 	html_content_menores.css(IS_REQUEST_LOOKUP).each do |elem|
 		responses_menores_header.push elem.text 
