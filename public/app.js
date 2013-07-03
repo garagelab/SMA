@@ -36,8 +36,8 @@ var cesacs_entities = [];
 var COLUMNS = {
   barrios: [
     {sName: "CÓDIGO", sTitle: "CÓDIGO", bVisible: false, aTargets: [0]},
-    {sName: "NOMBRE DEL BARRIO", sTitle: "NOMBRE DEL BARRIO", bVisible: true, aTargets: [1]},
-    {sName: "OTRO NOMBRE DEL BARRIO", sTitle: "OTRO NOMBRE DEL BARRIO", bVisible: true, aTargets: [2]},
+    {sName: "BARRIO", sTitle: "BARRIO", bVisible: true, aTargets: [1]},
+    {sName: "OTRA DENOMINACIÓN", sTitle: "OTRA DENOMINACIÓN", bVisible: true, aTargets: [2]},
     {sName: "Poligono", sTitle: "Poligono", bVisible: false, aTargets: [3]},
     {sName: "Puntos", sTitle: "Puntos", bVisible: false, aTargets: [4]},
     {sName: "PARTIDO", sTitle: "PARTIDO", bVisible: true, aTargets: [5]},
@@ -207,7 +207,7 @@ function initializeMap() {
       		}
     	},
     	{
-    		where: "'NOMBRE DEL BARRIO' = 'Lujan \"Villa Lujan\"'",
+    		where: "'BARRIO' = 'Lujan \"Villa Lujan\"'",
     		polygonOptions: {
       			fillColor: "#ffa500",
         		fillOpacity: 3,         // Opacidad del plano
@@ -345,7 +345,7 @@ function initializeMap() {
     			'<li  class="active">'+ 
     				'<a href="#info" data-toggle="tab">'+ 
 			  		'<img src="/images/barrio_24.png" width="24" height="24" />'+ 
-			  		'<strong>&nbsp;' + e.row['NOMBRE DEL BARRIO'].value + '</strong></a>'+ 
+			  		'<strong>&nbsp;' + e.row['BARRIO'].value + '</strong></a>'+ 
 			  	'</li>' + 
   				'<li><a href="#more" data-toggle="tab">'+ 
   					'ver más &raquo;</a>'+ 
@@ -354,8 +354,8 @@ function initializeMap() {
 			'<div id="myTabContent" class="tab-content">'+ 
 				'<div class="tab-pane fade in active" id="info">'+ 
 				'<table style="font-size:83%">'+
-				'<tr><td><strong>OTRO NOMBRE DEL BARRIO:</strong></td>'+
-				'<td>' + e.row['OTRO NOMBRE DEL BARRIO'].value + '</td></tr>'+
+				'<tr><td><strong>OTRA DENOMINACI&Oacute;N:</strong></td>'+
+				'<td>' + e.row['OTRA DENOMINACIÓN'].value + '</td></tr>'+
 				'<tr><td><strong>PARTIDO:</strong></td>'+
 				'<td>' + e.row['PARTIDO'].value + '</td></tr>'+
 				'<tr><td><strong>LOCALIDAD:</strong></td>'+
