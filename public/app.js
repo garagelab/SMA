@@ -18,8 +18,11 @@ var barrios_table = '1_fEVSZmIaCJzDQoOgTY7pIcjBLng1MFOoeeTtYY';
 // New "Establecimientos" table
 var es_table = '16MyxlnVrTntC1T3joWcZSrS-iv4cHTvffgYNVI0';
 
-var queryUrlHead = 'https://fusiontables.googleusercontent.com/fusiontables/api/query?sql=';
-var queryUrlTail = '&jsonCallback=?'; // ? could be a function name
+// Google API key for project 'TechoCatastro'. User data access is not need therefor.
+var API_KEY = 'AIzaSyCQ3Kiec1Vz_flwDFJxqahORuIES0WVxmw';
+
+// Google API V1.0 URL Endpoint
+var urlEndpoint = 'https://www.googleapis.com/fusiontables/v1/';
 
 var barrios_cols
 var barrios_rows;
@@ -38,31 +41,33 @@ var COLUMNS = {
     {sName: "CÓDIGO", sTitle: "CÓDIGO", bVisible: false, aTargets: [0]},
     {sName: "BARRIO", sTitle: "BARRIO", bVisible: true, aTargets: [1]},
     {sName: "OTRA DENOMINACIÓN", sTitle: "OTRA DENOMINACIÓN", bVisible: true, aTargets: [2]},
-    {sName: "Poligono", sTitle: "Poligono", bVisible: false, aTargets: [3]},
-    {sName: "Puntos", sTitle: "Puntos", bVisible: false, aTargets: [4]},
+    {sName: "PROVINCIA", sTitle: "PROVINCIA", bVisible: false, aTargets: [3]},
+    {sName: "DEPARTAMENTO", sTitle: "DEPARTAMENTO", bVisible: false, aTargets: [4]},
     {sName: "PARTIDO", sTitle: "PARTIDO", bVisible: true, aTargets: [5]},
     {sName: "LOCALIDAD", sTitle: "LOCALIDAD", bVisible: true, aTargets: [6]},
-    {sName: "AÑO DE CONFORMACIÓN DEL BARRIO", sTitle: "AÑO DE CONFORMACIÓN DEL BARRIO", bVisible: true, aTargets: [7]},
-    {sName: "MODALIDAD EN LA QUE SE CONSTITUYÓ EL BARRIO", sTitle: "MODALIDAD EN LA QUE SE CONSTITUYÓ EL BARRIO", bVisible: true, aTargets: [8]},
-    {sName: "AÑO DE MAYOR CRECIMIENTO", sTitle: "AÑO DE MAYOR CRECIMIENTO", bVisible: true, aTargets: [9]},
+    {sName: "Poligono", sTitle: "Poligono", bVisible: false, aTargets: [7]},
+    {sName: "Puntos", sTitle: "Puntos", bVisible: false, aTargets: [8]},
+    {sName: "AÑO DE CONFORMACIÓN DEL BARRIO", sTitle: "AÑO DE CONFORMACIÓN DEL BARRIO", bVisible: true, aTargets: [9]},
     {sName: "NRO DE FLIAS", sTitle: "NRO DE FLIAS", bVisible: true, aTargets: [10]},
-    {sName: "ACTORES QUE PARTICIPAN DE LA VENTA 2", sTitle: "ACTORES QUE PARTICIPAN DE LA VENTA 2", bVisible: true, aTargets: [11]},
-    {sName: "MODALIDAD ADOPTADA POR LAS NUEVAS GENERACIONES 1", sTitle: "MODALIDAD ADOPTADA POR LAS NUEVAS GENERACIONES 1", bVisible: true, aTargets: [12]},
-    {sName: "MODALIDAD ADOPTADA POR LAS NUEVAS GENERACIONES 2", sTitle: "MODALIDAD ADOPTADA POR LAS NUEVAS GENERACIONES 2", bVisible: true, aTargets: [13]},
-    {sName: "ACCESO A LA ENERGÍA", sTitle: "ACCESO A LA ENERGÍA", bVisible: true, aTargets: [14]},
-    {sName: "RED CLOACAL", sTitle: "RED CLOACAL", bVisible: true, aTargets: [15]},
-    {sName: "AGUA", sTitle: "AGUA", bVisible: true, aTargets: [16]},
-    {sName: "PROVISIÓN DE AGUA", sTitle: "PROVISIÓN DE AGUA", bVisible: true, aTargets: [17]},
-    {sName: "GAS", sTitle: "GAS", bVisible: true, aTargets: [18]},
-    {sName: "DESAGÜES PLUVIALES", sTitle: "DESAGÜES PLUVIALES", bVisible: true, aTargets: [19]},
-    {sName: "ALUMBRADO PÚBLICO", sTitle: "ALUMBRADO PÚBLICO", bVisible: true, aTargets: [20]},
-    {sName: "RECOLECCIÓN DE RESIDUOS", sTitle: "RECOLECCIÓN DE RESIDUOS", bVisible: true, aTargets: [21]},
-    {sName: "EL BARRIO SE ENCUENTRA CERCA DE 1", sTitle: "EL BARRIO SE ENCUENTRA CERCA DE 1", bVisible: true, aTargets: [22]},
-    {sName: "EL BARRIO SE ENCUENTRA CERCA DE 2", sTitle: "EL BARRIO SE ENCUENTRA CERCA DE 2", bVisible: true, aTargets: [23]},
-    {sName: "EL BARRIO SE ENCUENTRA CERCA DE 3", sTitle: "EL BARRIO SE ENCUENTRA CERCA DE 3", bVisible: true, aTargets: [24]},
-    {sName: "EXISTENCIA DE UN PROGRAMA DE VIVIENDA DEL ESTADO", sTitle: "EXISTENCIA DE UN PROGRAMA DE VIVIENDA DEL ESTADO", bVisible: true, aTargets: [25]},
-    {sName: "ESPECIFICAR CANTIDAD DE CASILLAS", sTitle: "ESPECIFICAR CANTIDAD DE CASILLAS", bVisible: true, aTargets: [26]},
-    {sName: "LLEGADA AL BARRIO EN TRANSPORTE PÚBLICO", sTitle: "LLEGADA AL BARRIO EN TRANSPORTE PÚBLICO", bVisible: true, aTargets: [27]}
+    {sName: "MODALIDAD EN LA QUE SE CONSTITUYÓ EL BARRIO", sTitle: "MODALIDAD EN LA QUE SE CONSTITUYÓ EL BARRIO", bVisible: true, aTargets: [11]},
+    {sName: "AÑO DE MAYOR CRECIMIENTO", sTitle: "AÑO DE MAYOR CRECIMIENTO", bVisible: true, aTargets: [12]},
+    {sName: "ACTORES QUE PARTICIPAN DE LA VENTA 2", sTitle: "ACTORES QUE PARTICIPAN DE LA VENTA 2", bVisible: true, aTargets: [13]},
+    {sName: "MODALIDAD ADOPTADA POR LAS NUEVAS GENERACIONES 1", sTitle: "MODALIDAD ADOPTADA POR LAS NUEVAS GENERACIONES 1", bVisible: true, aTargets: [14]},
+    {sName: "MODALIDAD ADOPTADA POR LAS NUEVAS GENERACIONES 2", sTitle: "MODALIDAD ADOPTADA POR LAS NUEVAS GENERACIONES 2", bVisible: true, aTargets: [15]},
+    {sName: "ACCESO A LA ENERGÍA", sTitle: "ACCESO A LA ENERGÍA", bVisible: true, aTargets: [16]},
+    {sName: "RED CLOACAL", sTitle: "RED CLOACAL", bVisible: true, aTargets: [17]},
+    {sName: "AGUA", sTitle: "AGUA", bVisible: true, aTargets: [18]},
+    {sName: "PROVISIÓN DE AGUA", sTitle: "PROVISIÓN DE AGUA", bVisible: true, aTargets: [19]},
+    {sName: "GAS", sTitle: "GAS", bVisible: true, aTargets: [20]},
+    {sName: "DESAGÜES PLUVIALES", sTitle: "DESAGÜES PLUVIALES", bVisible: true, aTargets: [21]},
+    {sName: "ALUMBRADO PÚBLICO", sTitle: "ALUMBRADO PÚBLICO", bVisible: true, aTargets: [22]},
+    {sName: "RECOLECCIÓN DE RESIDUOS", sTitle: "RECOLECCIÓN DE RESIDUOS", bVisible: true, aTargets: [23]},
+    {sName: "EL BARRIO SE ENCUENTRA CERCA DE 1", sTitle: "EL BARRIO SE ENCUENTRA CERCA DE 1", bVisible: true, aTargets: [24]},
+    {sName: "EL BARRIO SE ENCUENTRA CERCA DE 2", sTitle: "EL BARRIO SE ENCUENTRA CERCA DE 2", bVisible: true, aTargets: [25]},
+    {sName: "EL BARRIO SE ENCUENTRA CERCA DE 3", sTitle: "EL BARRIO SE ENCUENTRA CERCA DE 3", bVisible: true, aTargets: [26]},
+    {sName: "EXISTENCIA DE UN PROGRAMA DE VIVIENDA DEL ESTADO", sTitle: "EXISTENCIA DE UN PROGRAMA DE VIVIENDA DEL ESTADO", bVisible: true, aTargets: [27]},
+    {sName: "ESPECIFICAR CANTIDAD DE CASILLAS", sTitle: "ESPECIFICAR CANTIDAD DE CASILLAS", bVisible: true, aTargets: [28]},
+    {sName: "LLEGADA AL BARRIO EN TRANSPORTE PÚBLICO", sTitle: "LLEGADA AL BARRIO EN TRANSPORTE PÚBLICO", bVisible: true, aTargets: [29]}
   ],
 
   es: [
@@ -508,23 +513,32 @@ function createMarker(entities, data_type) {
 // Data
 /////////////////////////////////////////////////////////////////////
 
-function fetchData(query, onDataFetched) {
-	// Construct a query to get data from a Fusion Table
-	var queryUrl = encodeURI(queryUrlHead + query + queryUrlTail);
+function fetchData(query, callback) {
+	// Prepare query string.
+	var encodedQuery = encodeURIComponent(query);
 
-    // Send the JSONP request using jQuery
-    $.ajax({
-    	url: queryUrl,
+    // Construct the URL.
+    var urlType = urlEndpoint + 'query';
+    var url = [urlType];
+    url.push('?sql=' + encodedQuery);
+    url.push('&key=' + API_KEY);
+    url.push('&callback=?');
+
+	// Send the JSONP request using jQuery.
+  	$.ajax( {
+    	type: "GET",
+    	url: url.join(''),
     	dataType: 'jsonp',
-        error: function() {alert("fetchData(): Error in query: " + queryUrl ); },
-        success: onDataFetched
-    });
+		contentType: "application/json",
+    	success: function(response) { callback(response); },
+        error: function() { alert("fetchData(): Error in query: " + url ); }
+  	});
 }
 
-function onBarriosDataFetched(data) {
-	barrios_cols = data.table.cols;
+function onBarriosDataFetched(response) {
+	barrios_cols = response.columns;
 	var cols = COLUMNS['barrios'];
-	barrios_rows = data.table.rows;
+	barrios_rows = response.rows;
 
 	var barriosTable = $('#barrios_table').dataTable( {
 		sDom: 'T<"clear">lfip<"clear">rtS<"clear">ip<"clear">',
@@ -563,11 +577,12 @@ function onBarriosDataFetched(data) {
 //	barrios_entities = createEntities('barrios', barrios_cols, barrios_rows);
 }
 
-function onHospitalesDataFetched(data) {
-	hospitales_cols = data.table.cols;
-	var cols = data.table.cols;
+function onHospitalesDataFetched(response) {
+	hospitales_cols = response.columns;
+	hospitales_rows = response.rows;
+	var cols = response.columns;
 //	var cols = COLUMNS['es'];
-	hospitales_rows = data.table.rows;
+
 
 	var hospitalesTable = $('#hospitales_table').dataTable( {
 		sDom: 'T<"clear">lfip<"clear">rtS<"clear">ip<"clear">',
@@ -638,11 +653,11 @@ function onHospitalesDataFetched(data) {
 //    createMarker(hospitales_entities, 'hospitales');
 }
 
-function onCesacsDataFetched(data) {
-	cesacs_cols = data.table.cols;
-	var cols = data.table.cols;
+function onCesacsDataFetched(response) {
+	cesacs_cols = response.columns;
+	cesacs_rows = response.rows;
+	var cols = response.columns;
 //	var cols = COLUMNS['es'];
-	cesacs_rows = data.table.rows;
 
 	var cesacsTable = $('#cesacs_table').dataTable( {
 		sDom: 'T<"clear">lfip<"clear">rtS<"clear">ip<"clear">',
